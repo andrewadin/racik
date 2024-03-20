@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\KonsumenController;
+use App\Http\Controllers\PaketController;
+use App\Http\Controllers\PesananController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,5 +16,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
+
+Auth::routes();
+
+Route::get('/konsumen', [KonsumenController::class, 'index'])->name('home');
+Route::post('/konsumen', [KonsumenController::class, 'store']);
+Route::put('/konsumen', [KonsumenController::class, 'update']);
+Route::delete('/konsumen', [KonsumenController::class, 'delete']);
+
+Route::get('/paket', [PaketController::class, 'index']);
+Route::post('/paket', [PaketController::class, 'store']);
+Route::put('/paket', [PaketController::class, 'update']);
+Route::delete('/paket', [PaketController::class, 'delete']);
+
+Route::get('/pesanan', [PesananController::class, 'index']);
+Route::get('/pesanan/baru', [PesananController::class, 'baru']);
