@@ -44,6 +44,7 @@
                         <hr>
                         <div class="form-group">
                             <label for="nama_konsumen">Nama Konsumen</label>
+                            <input type="text" name="id_kon" id="id_kon" hidden>
                             <input type="text" class="form-control ipt @error('nama_konsumen') is-invalid @enderror" id="nama_konsumen" name="nama_konsumen" placeholder="Nama Konsumen">
                             @error('nama_konsumen')
                             <div class="invalid-feedback">
@@ -113,20 +114,21 @@
     });
 </script>
 <script>
+    // Ajax get data konsumen untuk emngisi data konsumen lama secara otomatis
         $(document).ready(function(){
-            $("#sekolah").on('change', function (){
+            $("#konsumen_lama").on('change', function (){
                 console.log("berubah" + $(this).val())
                 let value = $(this).val();
                 if(value != ""){
-                    $('#kelas').empty();
+                    $('#nama_konsumen').empty();
                     fetchRecords(value);
                 }
 
             });
         });
-        function fetchRecords(nama){
+        function fetchRecords(id){
         $.ajax({
-            url: '/instansi/kelas/'+nama,
+            url: '/konsumen/'+id,
             async: true,
             type: 'get',
             dataType: 'json',
@@ -135,19 +137,22 @@
             var len = 0;
             if(response != null){
                 len = response.length;
-                var options = '<option>Pilih Kelas</options>';
 
-                $('#kelas').append(options);
+                $('#nama_konsumen').empty();
             }
 
             if(len > 0){
                 for(var i=0; i<len; i++){
                     var id = response[i].id;
-                    var nama_kelas = response[i].nama_kelas;
+                    var nama = response[i].nama;
+                    var no_hp = response[i].no_hp;
+                    var alamat = response[i].alamat;
 
-                    var options = '<option value="' + id +'">' + nama_kelas + '</option>';
-
-                    $('#kelas').append(options);
+                    console.log(id, nama, no_hp, alamat);
+                    $('#id_kon').val(id);
+                    $('#nama_konsumen').val(nama);
+                    $('#no_hp').val(no_hp);
+                    $('#summernote').val(alamat);
                 }
             }
 

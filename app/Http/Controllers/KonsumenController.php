@@ -18,6 +18,12 @@ class KonsumenController extends Controller
         return view('konsumen', compact('konsumens'));
     }
 
+    public function get_kons($id)
+    {
+        $konsumen = Konsumen::where('id', $id)->get();
+        return response()->json($konsumen);
+    }
+
     public function store(Request $request)
     {
         $validate = $request->validate([

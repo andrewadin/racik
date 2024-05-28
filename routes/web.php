@@ -22,6 +22,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/konsumen', [KonsumenController::class, 'index'])->name('home');
+Route::get('/konsumen/{id}', [KonsumenController::class, 'get_kons']);
 Route::post('/konsumen', [KonsumenController::class, 'store']);
 Route::put('/konsumen', [KonsumenController::class, 'update']);
 Route::delete('/konsumen', [KonsumenController::class, 'delete']);
@@ -33,3 +34,4 @@ Route::delete('/paket', [PaketController::class, 'delete']);
 
 Route::get('/pesanan', [PesananController::class, 'index']);
 Route::get('/pesanan/baru', [PesananController::class, 'baru']);
+Route::post('/pesanan/tambah', [PesananController::class, 'store']);

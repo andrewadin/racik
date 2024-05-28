@@ -26,4 +26,11 @@ class PesananController extends Controller
         $konsumen = Konsumen::all();
         return view('pesanan_baru', compact('paket', 'konsumen'));
     }
+
+    public function store(Request $request)
+    {
+        
+        $tgl = explode(',', $request->tgl_pesan);
+        dd($tgl);
+    }
 }
