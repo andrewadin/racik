@@ -25,12 +25,12 @@
                         <h2>Pesanan Catering Baru</h2>                       
                     </div>
                     <div class="body">
-                        <form action="{{ '/pesanan/tambah' }}" method="post">
+                        <form action="{{ '/pesanan' }}" method="post">
                         @csrf
                         <h5>Konsumen Lama</h5>
                         <div class="form-group">
-                            <select class="form-control ipt @error('konsumen_lama') is-invalid @enderror" name="konsumen_lama" id="konsumen_lama">
-                                <option selected id="opsi_kml">Konsumen Lama</option>
+                            <select class="js-example-basic-single js-states form-control ipt kons @error('konsumen_lama') is-invalid @enderror" name="konsumen_lama" id="konsumen_lama">
+                                <option id="opsi_kml"></option>
                                 @foreach($konsumen as $kon)
                                 <option value="{{$kon->id}}">{{$kon->nama}}</option>
                                 @endforeach
@@ -45,7 +45,7 @@
                         <div class="form-group">
                             <label for="nama_konsumen">Nama Konsumen</label>
                             <input type="text" name="id_kon" id="id_kon" hidden>
-                            <input type="text" class="form-control ipt @error('nama_konsumen') is-invalid @enderror" id="nama_konsumen" name="nama_konsumen" placeholder="Nama Konsumen">
+                            <input type="text" class="form-control ipt @error('nama_konsumen') is-invalid @enderror" id="nama_konsumen" name="nama_konsumen" placeholder="Nama Konsumen" required>
                             @error('nama_konsumen')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -54,7 +54,7 @@
                         </div>
                         <div class="form-group">
                             <label for="no_hp">No. HP Konsumen</label>
-                            <input type="text" class="form-control ipt @error('no_hp') is-invalid @enderror" id="no_hp" name="no_hp" placeholder="No. HP Konsumen">
+                            <input type="text" class="form-control ipt @error('no_hp') is-invalid @enderror" id="no_hp" name="no_hp" placeholder="No. HP Konsumen" required>
                             @error('no_hp')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -63,36 +63,79 @@
                         </div>
                         <div class="form-group">
                             <label for="summernote">Alamat Konsumen</label>
-                            <textarea name="summernote" id="summernote" class="form-control @error('summernote') is-invalid @enderror" placeholder="Alamat Konsumen" style="height:200px;"></textarea>
+                            <textarea name="summernote" id="summernote" class="form-control @error('summernote') is-invalid @enderror" placeholder="Alamat Konsumen" style="height:200px;" required></textarea>
                             @error('summernote')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                             @enderror
                         </div>
-                        <div class="form-group">
-                            <label for="paket">Paket Catering</label>
-                            <select class="form-control ipt @error('paket') is-invalid @enderror" name="paket" id="paket">
-                                <option selected id="opsi_kml">Pilih Paket</option>
-                                @foreach($paket as $pak)
-                                <option value="{{$pak->id}}">{{$pak->nama_paket}}</option>
-                                @endforeach
-                            </select>
-                            @error('paket')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
-                        <div class="form-group">
-                            <label for="">Tanggal Pengiriman</label>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="icon-calendar"></i></span>
+                        <div id="chg">
+                            <div class="form-group">
+                                <label for="paket">Paket Catering</label>
+                                <br>
+                                <select class="form-control ipt paket @error('paket') is-invalid @enderror" name="paket" id="paket" style="width:100%;" required>
+                                    <option id="opsi_kml"></option>
+                                    @foreach($paket as $pak)
+                                    <option value="{{$pak->id}}">{{$pak->nama_paket}}</option>
+                                    @endforeach
+                                </select>
+                                @error('paket')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
                                 </div>
-                                <input data-provide="datepicker" id="tgl_pesan" name="tgl_pesan" data-date-autoclose="false" class="form-control datepicker" placeholder="Tanggal Pesan">
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="catatan">Catatan Konsumen</label>
+                                <textarea name="catatan" id="catatan" class="form-control @error('catatan') is-invalid @enderror" placeholder="Catatan" style="height:200px;"></textarea>
+                                @error('catatan')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                            <input type="text" name="tipe" id="tipe" hidden disabled>
+                            <input type="text" name="harga" id="harga" hidden disabled>
+                            <div class="form-group">
+                                <label for="">Tanggal Pengiriman</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="icon-calendar"></i></span>
+                                    </div>
+                                    <input data-provide="datepicker" id="tgl_pesan" name="tgl_pesan" data-date-autoclose="false" class="form-control datepicker" placeholder="Tanggal Pesan" required>
+                                </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                                <label for="waktu">Waktu Makan</label>
+                                <br>
+                                <select class="form-control ipt @error('waktu') is-invalid @enderror" name="waktu" id="waktu" required>
+                                    <option id="opsi_kml" selected disabled>Lunch / Dinner</option>
+                                    @foreach($waktu as $wkt)
+                                    <option value="{{$wkt->id}}">{{$wkt->waktu}}</option>
+                                    @endforeach
+                                </select>
+                                @error('waktu')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                                @enderror
+                            </div>
+                        <div class="form-group">
+                            <label for="">Total Biaya</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control ipt @error('tgl') is-invalid @enderror total" id="total" name="total" hidden>
+                                <input type="text" class="form-control ipt @error('tgl') is-invalid @enderror vtotal" id="vtotal" name="vtotal" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Harga Khusus</label>
+                            <div class="input-group">
+                                <input type="number" class="form-control ipt @error('tgl') is-invalid @enderror" id="h_khusus" name="h_khusus">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <button type="submit" class="btn btn-primary">Simpan</button>
                             <a class="btn btn-secondary" href="{{ '/pesanan' }}">Kembali</a>
                         </form>
@@ -108,9 +151,27 @@
 		
 <script src="{{asset('assets/js/bootstrap-datepicker.id.min.js')}}" charset="UTF-8"></script>
 <script>
+    $(function(){
+        if($('.kons').length > 0) {
+            $('.kons').select2({
+                placeholder: "Pilih Konsumen Lama",
+                allowClear: true
+            });
+        }
+        if($('.paket').length > 0){
+            $('.paket').select2({
+                placeholder: "Pilih Paket Catering",
+                allowClear: true
+            });
+        }
+    });
+</script>
+<script>
     $('.datepicker').datepicker({
         language: "id",
-        multidate: true
+        multidate: true,
+        format: 'yyyy-mm-dd',
+        todayHighlight: true
     });
 </script>
 <script>
@@ -125,7 +186,39 @@
                 }
 
             });
+            $('#chg').on('change', function (event){
+                var elem = event.target;
+                let hrg = [];
+                if(elem.name === "paket"){
+                    let val = elem.value;
+                    getPkt(val);
+                }
+                if(elem.name === "tgl_pesan"){
+                    let arr = elem.value.split(",");
+                    let hrg = $('#harga').val();
+                    let jml = arr.length;
+                    let tipe = $('#tipe').val();
+                    if(tipe == 'Harian'){
+                        let total = hrg * jml;
+                        $('#total').val(total);
+                        $('#vtotal').val(total);
+                        formatTotal(total);
+                    }else{
+                        $('#total').val(hrg)
+                        $('#vtotal').val(hrg)
+                        formatTotal(hrg);
+                    }
+                }
+            });
+                
         });
+        function formatTotal(tot){
+            var fixtotal = new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR"
+                }).format(tot).replace(',00', '').replace('Rp', '');
+                $('.vtotal').val(fixtotal);
+        }
         function fetchRecords(id){
         $.ajax({
             url: '/konsumen/'+id,
@@ -156,6 +249,32 @@
                 }
             }
 
+            }
+        });
+        }
+        function getPkt(id){
+            $.ajax({
+            url: '/paket/'+id,
+            async: true,
+            type: 'get',
+            dataType: 'json',
+            success: function(response){
+
+            var len = 0;
+            if(response != null){
+                len = response.length;
+            }
+
+            if(len > 0){
+                for(var i=0; i<len; i++){
+                    var tipe = response[i].tipe.nama_tipe;
+                    var harga = response[i].harga;
+                    $('#tipe').val(tipe);
+                    $('#harga').val(harga);
+                    $('#total').val(harga);
+                    formatTotal(harga);
+                }
+            }
             }
         });
         }

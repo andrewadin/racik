@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('konsumen_id');
             $table->unsignedBigInteger('paket_id');
+            $table->unsignedBigInteger('waktu_id');
+            $table->text('catatan')->nullable();
             $table->Integer('jumlah');
             $table->double('total');
-            $table->string('catatan');
             $table->timestamps();
 
             $table->foreign('konsumen_id')
@@ -29,6 +30,12 @@ return new class extends Migration
             $table->foreign('paket_id')
                   ->references('id')
                   ->on('pakets')
+                  ->onDelete('cascade')
+                  ->onUpdate('cascade');
+
+            $table->foreign('waktu_id')
+                  ->references('id')
+                  ->on('waktu_kirims')
                   ->onDelete('cascade')
                   ->onUpdate('cascade');
         });

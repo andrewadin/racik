@@ -18,4 +18,14 @@ class Pesanan extends Model
     {
         return $this->belongsTo(Paket::class, 'paket_id');
     }
+
+    public function tgl_kirim()
+    {
+        return $this->hasMany(TanggalKirim::class, 'pesanan_id');
+    }
+
+    public function waktu()
+    {
+        return $this->belongsTo(WaktuKirim::class, 'waktu_id');
+    }
 }

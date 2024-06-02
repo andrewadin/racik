@@ -59,6 +59,7 @@
                                             <th>No</th>
                                             <th>Nama Konsumen</th>
                                             <th>Nama Paket</th>
+                                            <th>Waktu Makan</th>
                                             <th>Alamat</th>
                                             <th>Catatan</th>
                                             <th>Total Harga</th>
@@ -70,6 +71,7 @@
                                             <th>No</th>
                                             <th>Nama Konsumen</th>
                                             <th>Nama Paket</th>
+                                            <th>Waktu Makan</th>
                                             <th>Alamat</th>
                                             <th>Catatan</th>
                                             <th>Total Harga</th>
@@ -83,19 +85,24 @@
                                         @foreach($pesanan as $pes)
                                         <tr>
                                             <td>{{$i}}</td>
-                                            <td>{{$pes->konsumen->nama_konsumen}}</td>
+                                            <td>{{$pes->konsumen->nama}}</td>
                                             <td>{{$pes->paket->nama_paket}}</td>
+                                            <td>{{$pes->waktu->waktu}}</td>
                                             <td>
                                                 <div class="cut-words">
                                                     {{$pes->konsumen->alamat}}
                                                 </div>
                                             </td>
-                                            <td><span>Rp. </span>{{number_format($pes->total), 3, '.'}}</td>
                                             <td>
                                                 <div class="cut-words">
+                                                    @if($pes->catatan == NULL)
+                                                    -
+                                                    @else
                                                     {{$pes->catatan}}
+                                                    @endif
                                                 </div>
                                             </td>
+                                            <td><span>Rp. </span>{{number_format($pes->total), 3, '.'}}</td>
                                             <td>
                                                 <form action="{{'/pesanan/edit'}}" method="post">
                                                     @csrf
@@ -103,8 +110,7 @@
                                                     <button type="submit" class="btn btn-sm btn-icon btn-pure btn-default on-default button-edit">
                                                     <i class="icon-pencil" aria-hidden="true"></i>
                                                     </button>
-                                                </form>
-                                            <a class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" href="{{ '/user/pegawai-dinkes/edit/'.$pes->id }}"><i class="icon-pencil" aria-hidden="true"></i></a>                                               
+                                                </form>                                              
                                                 <button type="button" class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-bs-toggle="modal" data-bs-target="#hapusKelas" onclick="deleteKelas({{ $pes->id }}, '{{ $pes->konsumen->nama_konsumen }}')">
                                                     <i class="icon-trash" aria-hidden="true"></i>
                                                 </button>
@@ -304,5 +310,12 @@
         ]
     } );
     });
+</script>
+<script>
+    var msg = '{{Session::get('alert')}}';
+    var exist = '{{Session::has('alert')}}';
+    if(exist){
+        alert(msg);
+    }
 </script>
 @endpush

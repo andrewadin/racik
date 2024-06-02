@@ -5,8 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Konsumen extends Model
+class TipePaket extends Model
 {
     use HasFactory;
-    protected $fillable = ['nama', 'no_hp', 'alamat'];
+
+    public function paket()
+    {
+        return $this->hasMany(Paket::class, "tipe_id");
+    }
 }

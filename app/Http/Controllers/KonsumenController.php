@@ -38,7 +38,7 @@ class KonsumenController extends Controller
         $konsumen->alamat = $validate['summernote'];
         $konsumen->save();
 
-        return redirect('/konsumen')->with('status', 'Data berhasil ditambahkan');
+        return redirect('/konsumen')->with('alert', 'Data berhasil ditambahkan');
     }
 
     public function update(Request $request)
@@ -52,12 +52,12 @@ class KonsumenController extends Controller
             ]
             );
         
-        return redirect('/konsumen')->with('status', 'Data berhasil diperbarui');
+        return redirect('/konsumen')->with('alert', 'Data berhasil diperbarui');
     }
 
     public function delete(Request $request)
     {
         Konsumen::where('id', $request->delete_id)->delete();
-        return redirect('/konsumen')->with('status', 'Data berhasil dihapus');
+        return redirect('/konsumen')->with('alert', 'Data berhasil dihapus');
     }
 }

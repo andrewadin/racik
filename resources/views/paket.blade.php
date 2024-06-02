@@ -58,6 +58,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama Paket</th>
+                                            <th>Tipe Paket</th>
                                             <th>Harga</th>
                                             <th>Deskripsi Paket</th>
                                             <th>Edit/Hapus</th>
@@ -67,6 +68,7 @@
                                         <tr>
                                             <th>No</th>
                                             <th>Nama Paket</th>
+                                            <th>Tipe Paket</th>
                                             <th>Harga</th>
                                             <th>Deskripsi Paket</th>
                                             <th>Edit/Hapus</th>
@@ -80,6 +82,7 @@
                                         <tr>
                                             <td>{{$i}}</td>
                                             <td>{{$pak->nama_paket}}</td>
+                                            <td>{{$pak->tipe->nama_tipe}}</td>
                                             <td><span>Rp. </span>{{number_format($pak->harga), 3, '.'}}</td>
                                             <td>
                                                 <div class="cut-words">
@@ -87,7 +90,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-bs-toggle="modal" data-bs-target="#editKelas" onclick="editKelas({{ $pak->id }}, '{{ $pak->nama_paket }}', {{$pak->harga}}, '{{ $pak->deskripsi }}')">
+                                                <button type="button" class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-bs-toggle="modal" data-bs-target="#editKelas" onclick="editKelas({{ $pak->id }}, '{{ $pak->nama_paket }}', {{$pak->tipe->id}}, {{$pak->harga}}, '{{ $pak->deskripsi }}')">
                                                     <i class="icon-pencil" aria-hidden="true"></i>
                                                 </button>
                                                 <button type="button" class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-bs-toggle="modal" data-bs-target="#hapusKelas" onclick="deleteKelas({{ $pak->id }}, '{{ $pak->nama_paket }}')">
@@ -122,6 +125,20 @@
                         <label for="nama">Nama Paket</label>
                         <input type="text" class="form-control ipt @error('nama') is-invalid @enderror" id="nama" name="nama" placeholder="Nama Paket">
                         @error('nama')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="tipe">Tipe Paket</label>
+                        <select class="form-control ipt @error('tipe') is-invalid @enderror" name="tipe" id="tipe">
+                                <option selected id="opsi_kml">Pilih Tipe Paket</option>
+                                @foreach($tipes as $tip)
+                                <option value="{{$tip->id}}">{{$tip->nama_tipe}}</option>
+                                @endforeach
+                            </select>
+                        @error('tipe')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
@@ -168,6 +185,19 @@
                         <label for="edit_nama">Nama Paket</label>
                         <input type="text" class="form-control ipt @error('edit_nama') is-invalid @enderror" id="edit_nama" name="edit_nama" value="">
                         @error('edit_nama')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_tipe">Tipe Paket</label>
+                        <select class="form-control ipt @error('edit_tipe') is-invalid @enderror" name="edit_tipe" id="edit_tipe">
+                                @foreach($tipes as $tip)
+                                <option value="{{$tip->id}}">{{$tip->nama_tipe}}</option>
+                                @endforeach
+                            </select>
+                        @error('edit_tipe')
                         <div class="invalid-feedback">
                             {{ $message }}
                         </div>
@@ -240,8 +270,9 @@
 
 <script src="{{asset('assets/vendor/sweetalert/sweetalert.min.js')}}"></script> 
 <script>
-    function editKelas($id, $nama, $dskr, $harga) {
+    function editKelas($id, $nama, $tid, $dskr, $harga) {
             $('#edit_nama').val($nama)
+            $('#edit_tipe').val($tid)
             $('#edit_paket_id').val($id)
             $('#edit_summernote').val($dskr)
             $('#edit_harga').val($harga)
@@ -289,5 +320,12 @@
         ]
     } );
     });
+</script>
+<script>
+    var msg = '{{Session::get('alert')}}';
+    var exist = '{{Session::has('alert')}}';
+    if(exist){
+        alert(msg);
+    }
 </script>
 @endpush

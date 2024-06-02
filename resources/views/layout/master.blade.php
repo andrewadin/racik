@@ -19,6 +19,9 @@
 <link rel="stylesheet" href="{{asset('assets/css/blog.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/color_skins.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
 @yield('css')
@@ -182,7 +185,7 @@
 </div>
 
 <!-- Javascript -->
-<script src="{{asset('assets/bundles/libscripts.bundle.js')}}"></script>    
+<!-- <script src="{{asset('assets/bundles/libscripts.bundle.js')}}"></script>     -->
 <script src="{{asset('assets/bundles/vendorscripts.bundle.js')}}"></script>
 <script src="{{asset('assets/bundles/mainscripts.bundle.js')}}"></script>
 		

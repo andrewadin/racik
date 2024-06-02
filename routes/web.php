@@ -28,10 +28,11 @@ Route::put('/konsumen', [KonsumenController::class, 'update']);
 Route::delete('/konsumen', [KonsumenController::class, 'delete']);
 
 Route::get('/paket', [PaketController::class, 'index']);
+Route::get('/paket/{id}', [PaketController::class, 'getPaket']);
 Route::post('/paket', [PaketController::class, 'store']);
 Route::put('/paket', [PaketController::class, 'update']);
 Route::delete('/paket', [PaketController::class, 'delete']);
 
 Route::get('/pesanan', [PesananController::class, 'index']);
 Route::get('/pesanan/baru', [PesananController::class, 'baru']);
-Route::post('/pesanan/tambah', [PesananController::class, 'store']);
+Route::post('/pesanan', [PesananController::class, 'store']);
