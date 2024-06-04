@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('pesanans', function (Blueprint $table) {
             $table->id();
+            $table->string('no_nota');
             $table->unsignedBigInteger('konsumen_id');
             $table->unsignedBigInteger('paket_id');
             $table->unsignedBigInteger('waktu_id');
             $table->text('catatan')->nullable();
             $table->Integer('jumlah');
+            $table->double('diskon');
+            $table->double('harga_tambahan');
             $table->double('total');
             $table->timestamps();
 

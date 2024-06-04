@@ -17,7 +17,7 @@ class PaketController extends Controller
     {
         $pakets = Paket::with('tipe')->get();
         $tipes = TipePaket::all();
-        return view('paket', compact('pakets', 'tipes'));
+        return view('layouts.paket', compact('pakets', 'tipes'));
     }
 
     public function getPaket($id)
