@@ -118,6 +118,13 @@
                         @endif   
                         @if(Auth::user()->role->nama_role == 'TIM DAPUR')
                         <li class="{{ (request()->is('ongoing*')) ? 'active' : '' }}"><a href="{{'/ongoing'}}"><i class="icon-rocket"></i> <span>Pesanan Hari Ini</span></a></li>
+                        <li>
+                            <a aria-expanded="{{ (request()->is('rekap*')) || (request()->is('tablet*')) ? 'true' : 'false' }}" href="#Data" class="has-arrow"><i class="icon-bar-chart"></i><span>Info Pesanan Hari Ini</span></a>
+                            <ul class="{{ (request()->is('rekap*')) || (request()->is('tablet*')) ? 'collapse in' : 'collapse' }}">
+                                <li class="{{ (request()->is('rekap-lunch*')) ? 'active' : '' }}"><a href="{{'/rekap-lunch'}}">Lunch</a></li>                                   
+                                <li class="{{ (request()->is('rekap-dinner*')) ? 'active' : '' }}"><a href="{{'/rekap-dinner'}}">Dinner</a></li>                                     
+                            </ul>
+                        </li>
                         @endif
                         @endif 
                         </ul>

@@ -61,3 +61,5 @@ Route::get('/rekap-bulanan', [PesananController::class, 'getBulanan']);
 Route::get('/rekap-bulanan-filtered', [PesananController::class, 'filterBulanan']);
 Route::get('/rekap-tahunan', [PesananController::class, 'getTahunan']);
 Route::get('/rekap-tahunan-filtered', [PesananController::class, 'filterTahunan']);
+Route::get('/rekap-lunch', [PesananController::class, 'rekapLunch']);
+Route::get('/rekap-dinner', [PesananController::class, 'rekapDinner']);

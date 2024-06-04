@@ -29,30 +29,55 @@ class PesananController extends Controller
     public function ongoing()
     {
         $now = Carbon::now()->format('Y-m-d');
-        // $tgls = TanggalKirim::with('pesanan')->where('tgl_kirim', $now)->get();
-        // $tgls = TanggalKirim::with(['pesanan' => function (Builder $query){
-        //     $query->orderBy('waktu_id');
-        // }])->where('tgl_kirim', $now)->get();
         $tgls = TanggalKirim::withAggregate('pesanan', 'waktu_id')->where('tgl_kirim', $now)->orderBy('pesanan_waktu_id')->get();
-        // dd(count($tgls));
         return view('layouts.ongoing', compact('tgls'));
     }
 
     public function getHarian()
     {
         $now = Carbon::now()->format('Y-m-d');
-        $tgls = TanggalKirim::with('pesanan')->where('created_at', $now)->get();
+        $tgls = TanggalKirim::with('pesanan')
+        ->whereDate('created_at', $now)
+        ->get();
         $nows = Carbon::now()->format('d-m-Y');
         $rekap = 'Harian';
         $temp = 'Tanggal';
         return view('layouts.rekap_harian', compact('tgls', 'nows', 'rekap', 'temp'));
     }
 
+    public function rekapLunch()
+    {
+        $swkt = WaktuKirim::where('waktu', 'Lunch')->get();
+        $wkt = $swkt[0]["id"];
+        $wktx = $swkt[0]['waktu'];
+        $x = 1;
+        $now = Carbon::now()->format('Y-m-d');
+        $nows = Carbon::now()->isoFormat('dddd, D MMMM Y');
+        $pesanan = Pesanan::with(['tgl_kirim' => function(Builder $query) use ($now){
+            $query->where('tgl_kirim', $now);
+        }])->where('waktu_id', $wkt)->get();
+        return view('layouts.rekap_kiriman', compact('pesanan', 'wktx', 'x', 'nows'));
+    }
+
+    public function rekapDinner()
+    {
+        $swkt = WaktuKirim::where('waktu', 'Dinner')->get();
+        $wkt = $swkt[0]["id"];
+        $wktx = $swkt[0]['waktu'];
+        $x = 1;
+        $now = Carbon::now()->format('Y-m-d');
+        $nows = Carbon::now()->isoFormat('dddd, D MMMM Y');
+        $pesanan = Pesanan::with(['tgl_kirim' => function(Builder $query) use ($now){
+            $query->where('tgl_kirim', $now);
+        }])->where('waktu_id', $wkt)->get();
+        return view('layouts.rekap_kiriman', compact('pesanan', 'wktx', 'x', 'nows'));
+    }
+
     public function filterHarian(Request $request)
     {
         $rekap = 'Harian';
         $temp = 'Tanggal';
-        $tgls = TanggalKirim::with('pesanan')->where('created_at', $request->filter_tgl)->get();
+        $tgls = TanggalKirim::with('pesanan')->whereDate('created_at', $request->filter_tgl)->get();
         $d = $request->filter_tgl[8].$request->filter_tgl[9];
         $m = $request->filter_tgl[5].$request->filter_tgl[6];
         $y = $request->filter_tgl[0].$request->filter_tgl[1].$request->filter_tgl[2].$request->filter_tgl[3];
@@ -77,8 +102,6 @@ class PesananController extends Controller
 
     public function filterBulanan(Request $request)
     {
-        
-        $nows = Carbon::now()->isoFormat('MMMM');
         $rekap = 'Bulanan';
         $temp = 'Bulan';
         $nowy = Carbon::now()->format('Y');

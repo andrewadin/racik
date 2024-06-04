@@ -1,5 +1,5 @@
 @extends('layout.master')
-@section('title') Rekap Pesanan Bulanan Catering Bulan {{$nows->isoFormat('MMMM')}}@endsection
+@section('title') Info Pesanan Hari Ini ({{$wktx}})@endsection
 @section('css')
 
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
@@ -41,83 +41,63 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="header">
-                            <h2>Data Pesanan Catering</h2><hr>                  
+                            <h2>Info Pesanan {{$nows}} ({{$wktx}})</h2><hr>                  
                         </div>
                         <div class="body">
-                            @if(Auth::user()->role->nama_role == 'ADMIN')
-                            <form action="{{'/rekap-harian-filtered/'}}" method="get"></form>
-                            @endif
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover table-striped" cellspacing="0" id="addrowExample">
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>No Nota</th>
+                                            <th>Pesanan</th>
                                             <th>Nama Konsumen</th>
-                                            <th>Nama Paket</th>
-                                            <th>Waktu Makan</th>
-                                            <th>Alamat</th>
                                             <th>Catatan</th>
-                                            <th>Diskon</th>
-                                            <th>Harga Tambahan</th>
-                                            <th>Total Harga</th>
-                                            <th>Tanggal Kirim</th>
-                                            <th>Edit/Hapus</th>
+                                            <th>No HP</th>
+                                            <th>Alamat</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th>No</th>
-                                            <th>No Nota</th>
+                                            <th>Pesanan</th>
                                             <th>Nama Konsumen</th>
-                                            <th>Nama Paket</th>
-                                            <th>Waktu Makan</th>
-                                            <th>Alamat</th>
                                             <th>Catatan</th>
-                                            <th>Diskon</th>
-                                            <th>Harga Tambahan</th>
-                                            <th>Total Harga</th>
-                                            <th>Tanggal Kirim</th>
-                                            <th>Edit/Hapus</th>
+                                            <th>No HP</th>
+                                            <th>Alamat</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
                                         @php
                                         $i = 1;
                                         @endphp
-                                        @foreach($tgls as $tgl)
+                                        @foreach($pesanan as $pes)
+                                        @if($pes->tgl_kirim->isEmpty())
+                                        @php
+                                        $i--;
+                                        @endphp
+                                        @else
                                         <tr>
                                             <td>{{$i}}</td>
-                                            <td>{{$tgl->pesanan->no_nota}}</td>
-                                            <td>{{$tgl->pesanan->konsumen->nama}}</td>
-                                            <td>{{$tgl->pesanan->paket->nama_paket}}</td>
-                                            <td>{{$tgl->pesanan->waktu->waktu}}</td>
+                                            <td>{{$pes->paket->nama_paket}}</td>
+                                            <td>{{$pes->konsumen->nama}}</td>
                                             <td>
-                                                <div class="cut-words">
-                                                    {{$tgl->pesanan->konsumen->alamat}}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="cut-words">
-                                                    @if($tgl->pesanan->catatan == NULL)
+                                                <div>
+                                                    @if($pes->catatan == NULL)
                                                     -
                                                     @else
-                                                    {{$tgl->pesanan->catatan}}
+                                                    <p>{{$pes->catatan}}</p>
                                                     @endif
                                                 </div>
                                             </td>
-                                            <td>{{$tgl->pesanan->diskon}} <span>%</span></td>
-                                            <td><span>Rp. </span>{{number_format($tgl->pesanan->harga_tambahan), 3, '.'}}</td>
-                                            <td><span>Rp. </span>{{number_format($tgl->pesanan->total), 3, '.'}}</td>
-                                            <td>{{$tgl["tgl_kirim"]->format('d-m-Y')}}</td>
+                                            <td>{{$pes->konsumen->no_hp}}</td>
                                             <td>
-                                                <a href="{{'/nota/'. $tgl->pesanan->no_nota}}" class="btn btn-sm btn-icon btn-pure btn-default"><i class="icon-eye" aria-hidden="true"></i></a>
-                                                <a href="{{'/pesanan/'. $tgl->pesanan->no_nota}}" class="btn btn-sm btn-icon btn-pure btn-default"><i class="icon-pencil" aria-hidden="true"></i></a>                                              
-                                                <button type="button" class="btn btn-sm btn-icon btn-pure btn-default on-default button-remove" data-bs-toggle="modal" data-bs-target="#hapusKelas" onclick="deleteKelas({{$i}}, {{ $tgl->pesanan->id }}, '{{ $tgl->pesanan->konsumen->nama }}')">
-                                                    <i class="icon-trash" aria-hidden="true"></i>
-                                                </button>
+                                                <div>
+                                                    <p>{{$pes->konsumen->alamat}}</p>
+                                                    
+                                                </div>
                                             </td>
                                         </tr>
+                                        @endif
                                         @php
                                         $i++;
                                         @endphp

@@ -11,7 +11,7 @@ class TanggalKirim extends Model
 
     protected $fillable = ['pesanan_id', 'tgl_kirim'];
     protected $casts = [
-        'tgl_kirim' => 'datetime'
+        'tgl_kirim' => 'datetime',
     ];
 
     public function pesanan()

@@ -10,9 +10,6 @@ class Pesanan extends Model
     use HasFactory;
     protected $fillable = ['no_nota', 'konsumen_id', 'paket_id', 'waktu_id', 'jumlah', 'diskon', 'harga_tambahan', 'total', 'catatan'];
 
-    protected $casts =[
-        'created_at' => 'datetime'
-    ];
 
     public function konsumen()
     {
