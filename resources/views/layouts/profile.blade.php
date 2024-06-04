@@ -52,13 +52,16 @@
                                             <form action="{{ '/profile' }}" method="post" enctype="multipart/form-data">
                                             @csrf
                                             @method('PUT')
-                                            <div class="form-group">                                                
+                                            <div class="form-group">
+                                                <label for="">Nama</label>                                               
                                                 <input type="text" class="form-control" id="edit_name" name="edit_name" placeholder="Nama Lengkap" value="{{ old('name', Auth::user()->name) }}">
                                             </div>
-                                            <div class="form-group">                                                
+                                            <div class="form-group"> 
+                                                <label for="">Username</label>                                               
                                                 <input type="text" class="form-control" id="edit_username" name="edit_username" placeholder="Username" value="{{ old('email', Auth::user()->username) }}">
                                             </div>
-                                            <div class="form-group">                                                
+                                            <div class="form-group">
+                                                <label for="">No HP</label>                                                
                                                 <input type="text" class="form-control" id="edit_nohp" name="edit_nohp" placeholder="No HP" value="{{ old('email', Auth::user()->no_hp) }}">
                                             </div>
                                         </div>
