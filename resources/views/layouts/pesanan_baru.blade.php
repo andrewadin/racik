@@ -234,12 +234,12 @@
                     let jml = arr.length;
                     let tipe = $('#tipe').val();
                     if(tipe == 'Harian'){
-                        let total = (hrg * jml) - ((hrg * jml * disk)/100) + tmb ;
+                        let total = (hrg * jml) - disk + tmb ;
                         $('#total').val(total);
                         $('#vtotal').val(total);
                         formatTotal(total);
                     }else{
-                        let total = hrg - (hrg * (disk - 0) / 100) + tmb;
+                        let total = hrg - disk + tmb;
                         $('#total').val(total)
                         $('#vtotal').val(total)
                         formatTotal(total);
@@ -256,12 +256,12 @@
                     let jml = arr.length;
                     let tipe = $('#tipe').val();
                     if(tipe == 'Harian'){
-                        let total = (hrg * jml) - ((hrg * jml * disk)/100) + tmb ;
+                        let total = (hrg * jml) - disk + tmb ;
                         $('#total').val(total);
                         $('#vtotal').val(total);
                         formatTotal(total);
                     }else{
-                        let total = hrg - (hrg * (disk - 0) / 100) + tmb;
+                        let total = hrg - disk + tmb;
                         $('#total').val(total)
                         $('#vtotal').val(total)
                         formatTotal(total);
@@ -334,11 +334,11 @@
                     $('#tipe').val(tipe);
                     $('#harga').val(harga);
                     if(tipe == 'Harian'){
-                        var total = (harga * n) - ((harga * n * disk)/100) + tmb;
+                        var total = (harga * n) - disk + tmb;
                         $('#total').val(total);
                         formatTotal(total);
                     }else{
-                        var total = harga - ((harga * disk)/100) + tmb;
+                        var total = harga - disk + tmb;
                         $('#total').val(total);
                         formatTotal(total);
                     }

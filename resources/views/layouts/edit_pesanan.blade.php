@@ -187,7 +187,6 @@
 <script>
     // Ajax get data konsumen untuk emngisi data konsumen lama secara otomatis
         $(document).ready(function(){
-            formatTotal($('#total').val());
             $("#konsumen_lama").on('change', function (){
                 console.log("berubah" + $(this).val())
                 let value = $(this).val();
@@ -206,18 +205,43 @@
                 }
                 if(elem.name === "tgl_pesan"){
                     let arr = elem.value.split(",");
+                    let disk = $('#diskon').val() - 0;
+                    let tmb = $('#hrg_tmb').val() - 0;
                     let hrg = $('#harga').val();
                     let jml = arr.length;
                     let tipe = $('#tipe').val();
                     if(tipe == 'Harian'){
-                        let total = hrg * jml;
+                        let total = (hrg * jml) - disk + tmb ;
                         $('#total').val(total);
                         $('#vtotal').val(total);
                         formatTotal(total);
                     }else{
-                        $('#total').val(hrg)
-                        $('#vtotal').val(hrg)
-                        formatTotal(hrg);
+                        let total = hrg - disk + tmb;
+                        $('#total').val(total)
+                        $('#vtotal').val(total)
+                        formatTotal(total);
+                    }
+                }
+            });
+            $('#add').on('change', function (event){
+                let elem = event.target;
+                if(elem.name === 'diskon' || elem.name === 'hrg_tmb'){
+                    let arr = $('#tgl_pesan').val().split(',');
+                    let disk = $('#diskon').val() - 0;
+                    let tmb = $('#hrg_tmb').val() - 0;
+                    let hrg = $('#harga').val();
+                    let jml = arr.length;
+                    let tipe = $('#tipe').val();
+                    if(tipe == 'Harian'){
+                        let total = (hrg * jml) - disk + tmb ;
+                        $('#total').val(total);
+                        $('#vtotal').val(total);
+                        formatTotal(total);
+                    }else{
+                        let total = hrg - disk + tmb;
+                        $('#total').val(total)
+                        $('#vtotal').val(total)
+                        formatTotal(total);
                     }
                 }
             });
@@ -281,16 +305,21 @@
                     var tipe = response[i].tipe.nama_tipe;
                     var harga = response[i].harga;
                     var art = $('#tgl_pesan').val().split(",");
+                    var n = art.length;
+                    var disk = ($('#diskon').val() - 0);
+                    var tmb = $('#hrg_tmb').val() - 0;
                     $('#tipe').val(tipe);
                     $('#harga').val(harga);
                     if(tipe == 'Harian'){
-                        var total = harga * art.length;
+                        var total = (harga * n) - disk + tmb;
                         $('#total').val(total);
                         formatTotal(total);
                     }else{
-                        $('#total').val(harga);
-                        formatTotal(harga);
+                        var total = harga - disk + tmb;
+                        $('#total').val(total);
+                        formatTotal(total);
                     }
+                    
                     
                 }
             }

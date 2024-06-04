@@ -109,7 +109,7 @@
                                                     @endif
                                                 </div>
                                             </td>
-                                            <td>{{$pes->diskon}} <span>%</span></td>
+                                            <td>Rp. </span>{{number_format($pes->diskon), 3, '.'}}</td>
                                             <td><span>Rp. </span>{{number_format($pes->harga_tambahan), 3, '.'}}</td>
                                             <td><span>Rp. </span>{{number_format($pes->total), 3, '.'}}</td>
                                             <td>
