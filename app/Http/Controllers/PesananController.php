@@ -29,7 +29,12 @@ class PesananController extends Controller
     public function ongoing()
     {
         $now = Carbon::now()->format('Y-m-d');
-        $tgls = TanggalKirim::with('pesanan')->where('tgl_kirim', $now)->get();
+        // $tgls = TanggalKirim::with('pesanan')->where('tgl_kirim', $now)->get();
+        // $tgls = TanggalKirim::with(['pesanan' => function (Builder $query){
+        //     $query->orderBy('waktu_id');
+        // }])->where('tgl_kirim', $now)->get();
+        $tgls = TanggalKirim::withAggregate('pesanan', 'waktu_id')->where('tgl_kirim', $now)->orderBy('pesanan_waktu_id')->get();
+        // dd(count($tgls));
         return view('layouts.ongoing', compact('tgls'));
     }
 
@@ -48,9 +53,10 @@ class PesananController extends Controller
         $rekap = 'Harian';
         $temp = 'Tanggal';
         $tgls = TanggalKirim::with('pesanan')->where('created_at', $request->filter_tgl)->get();
-        foreach($tgls as $tgl){
-            $filters = $tgl["created_at"]->format('d-m-Y');
-        }
+        $d = $request->filter_tgl[8].$request->filter_tgl[9];
+        $m = $request->filter_tgl[5].$request->filter_tgl[6];
+        $y = $request->filter_tgl[0].$request->filter_tgl[1].$request->filter_tgl[2].$request->filter_tgl[3];
+        $filters = $d . '-' . $m . '-' . $y;
         return view('layouts.rekap_harian', compact('tgls', 'filters', 'rekap', 'temp'));
     }
 

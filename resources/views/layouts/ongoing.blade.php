@@ -38,12 +38,12 @@
                 </div>
             </div>
             <div class="row clearfix">
-                @foreach($tgls as $tgl)
-                @if($tgl->pesanan != NULL)
+                @for($i = 0;$i < count($tgls); $i++)
+                @if($tgls[$i]->pesanan != NULL)
                 <div class="col-4 col-md-4 bold-brd">
                     <div class="card">
                         <div class="header">
-                            @if($tgl->pesanan->waktu->waktu == 'Lunch')
+                            @if($tgls[$i]->pesanan->waktu->waktu == 'Lunch')
                             <svg viewBox="0 0 224 224" width="50" height="50">
                                 <rect width="200" height="200" fill="yellow"/>
                                 <text x="100" y="100" font-size="10em" dominant-baseline="middle" text-anchor="middle">L</text>
@@ -54,13 +54,11 @@
                                 <text x="50%" y="50%" font-size="10em"  dominant-baseline="middle" text-anchor="middle">D</text>
                             </svg>
                             @endif
-                            <!-- <svg class="inln" viewBox="0 0 20 20" width="100%" height="50"><text x="50%" y="50%" font-size="1em"  dominant-baseline="middle" text-anchor="middle">{{$tgl->pesanan->konsumen->nama}}</text></svg>
-                            <hr> -->
-                            <h4 class="cntr">{{$tgl->pesanan->konsumen->nama}}</h4>
-                            <h5 class="cntr">{{$tgl->pesanan->konsumen->no_hp}}</h5>
+                            <h4 class="cntr">{{$tgls[$i]->pesanan->konsumen->nama}}</h4>
+                            <h5 class="cntr">{{$tgls[$i]->pesanan->konsumen->no_hp}}</h5>
                         </div>
                         <div class="body">
-                        <p class="cntr font-lg">{{$tgl->pesanan->konsumen->alamat}}</p>
+                        <p class="cntr font-lg">{{$tgls[$i]->pesanan->konsumen->alamat}}</p>
                             <table>
                                 <thead>
                                     <th></th>
@@ -69,11 +67,11 @@
                                 <tbody>
                                     <tr>
                                         <td class="font-lg">Pesanan</td>
-                                        <td class="font-lg">: {{$tgl->pesanan->paket->nama_paket}}</td>
+                                        <td class="font-lg">: {{$tgls[$i]->pesanan->paket->nama_paket}}</td>
                                     </tr>
                                     <tr>
                                         <td class="font-lg">Request</td>
-                                        <td class="font-lg">: {{$tgl->pesanan->catatan}}</td>
+                                        <td class="font-lg">: {{$tgls[$i]->pesanan->catatan}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -81,7 +79,7 @@
                     </div>
                 </div>
                 @endif
-                @endforeach
+                @endfor
             </div>
             <button type="button" class="btn btn-primary page-screen" onclick="printNota()">Cetak Daftar</button>
         </div>
