@@ -51,6 +51,7 @@ class PaketController extends Controller
             ['id'=> $request->edit_paket_id],
             [
                 'nama_paket' => $request->edit_nama,
+                'tipe_id' => $request->edit_tipe,
                 'harga' => $request->edit_harga,
                 'deskripsi' => $request->edit_summernote,
             ]
