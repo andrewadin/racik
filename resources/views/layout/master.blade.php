@@ -16,7 +16,7 @@
 
 <!-- MAIN CSS -->
 <link rel="stylesheet" href="{{asset('assets/css/main.css')}}">
-<link rel="stylesheet" href="/.../resources/css/print.css">
+<link rel="stylesheet" href="{{asset('assets/css/print.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/blog.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/color_skins.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
