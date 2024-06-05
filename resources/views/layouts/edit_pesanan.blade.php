@@ -131,6 +131,30 @@
                                 </div>
                                 @enderror
                             </div>
+                            <div id="add">
+                            <div class="form-group">
+                                <label for="">Harga Tambahan</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control ipt @error('hrg_tmb') is-invalid @enderror" id="hrg_tmb" name="hrg_tmb" value="0">
+                                </div>
+                                    @error('hrg_tmb')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="">Diskon</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control ipt @error('diskon') is-invalid @enderror" id="diskon" name="diskon" value="0">
+                                </div>
+                                @error('diskon')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label for="">Total Biaya</label>
                             <div class="input-group">
@@ -187,6 +211,7 @@
 <script>
     // Ajax get data konsumen untuk emngisi data konsumen lama secara otomatis
         $(document).ready(function(){
+            formatTotal($('#total').val());
             $("#konsumen_lama").on('change', function (){
                 console.log("berubah" + $(this).val())
                 let value = $(this).val();
