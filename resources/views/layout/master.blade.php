@@ -102,7 +102,7 @@
                         <ul class="main-menu metismenu">
                         @if(Auth::check())
                         @if(Auth::user()->role->nama_role == 'ADMIN')
-                        <li class="{{ (request()->is('ongoing*')) ? 'active' : '' }}"><a href="{{'/ongoing'}}"><i class="icon-rocket"></i> <span>Pesanan Hari Ini</span></a></li>
+                        <li class="{{ (request()->is('ongoing*')) ? 'active' : '' }}"><a href="{{'/ongoing'}}"><i class="icon-book-open"></i> <span>Cetak Alamat</span></a></li>
                         <li class="{{ (request()->is('konsumen*')) ? 'active' : '' }}"><a href="{{'/konsumen'}}"><i class="icon-users"></i> <span>Konsumen</span></a></li>
                         <li class="{{ (request()->is('paket*')) ? 'active' : '' }}"><a href="{{'/paket'}}"><i class="icon-drawer"></i> <span>Paket Catering</span></a></li>
                         <li class="{{ (request()->is('pesanan*')) ? 'active' : '' }}"><a href="{{'/pesanan'}}"><i class="icon-handbag "></i> <span>Pesanan</span></a></li>
@@ -117,7 +117,7 @@
                         <li class="{{ (request()->is('user*')) ? 'active' : '' }}"><a href="{{'/user'}}"><i class="icon-user "></i> <span>User</span></a></li>
                         @endif   
                         @if(Auth::user()->role->nama_role == 'TIM DAPUR')
-                        <li class="{{ (request()->is('ongoing*')) ? 'active' : '' }}"><a href="{{'/ongoing'}}"><i class="icon-rocket"></i> <span>Pesanan Hari Ini</span></a></li>
+                        <li class="{{ (request()->is('ongoing*')) ? 'active' : '' }}"><a href="{{'/ongoing'}}"><i class="icon-book-open"></i> <span>Cetak Alamat</span></a></li>
                         <li>
                             <a aria-expanded="{{ (request()->is('rekap*')) || (request()->is('tablet*')) ? 'true' : 'false' }}" href="#Data" class="has-arrow"><i class="icon-bar-chart"></i><span>Info Pesanan Hari Ini</span></a>
                             <ul class="{{ (request()->is('rekap*')) || (request()->is('tablet*')) ? 'collapse in' : 'collapse' }}">

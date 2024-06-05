@@ -36,53 +36,44 @@
                         </ul>
                     </div>
                 </div>
+                <br>
+                <button type="button" class="btn btn-primary page-screen" onclick="printNota()">Cetak Daftar</button>
             </div>
-            <div class="row clearfix">
+            <div class="row">
                 @for($i = 0;$i < count($tgls); $i++)
                 @if($tgls[$i]->pesanan != NULL)
-                <div class="col-4 col-md-4 bold-brd">
-                    <div class="card">
-                        <div class="header">
-                            @if($tgls[$i]->pesanan->waktu->waktu == 'Lunch')
-                            <svg viewBox="0 0 224 224" width="50" height="50">
-                                <rect width="200" height="200" fill="yellow"/>
-                                <text x="100" y="100" font-size="10em" dominant-baseline="middle" text-anchor="middle">L</text>
-                            </svg>
-                            @else
-                            <svg viewBox="0 0 224 224" width="50" height="50">
-                                <rect width="200" height="200" fill="cyan"/>
-                                <text x="50%" y="50%" font-size="10em"  dominant-baseline="middle" text-anchor="middle">D</text>
-                            </svg>
-                            @endif
-                            <h4 class="cntr">{{$tgls[$i]->pesanan->konsumen->nama}}</h4>
-                            <h5 class="cntr">{{$tgls[$i]->pesanan->konsumen->no_hp}}</h5>
-                        </div>
+                <div class="col-4 col-sm-4 bold-brd crd">
+                    <div id="crd">
                         <div class="body">
-                        <p class="cntr font-lg">{{$tgls[$i]->pesanan->konsumen->alamat}}</p>
-                            <table>
-                                <thead>
-                                    <th></th>
-                                    <th></th>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="font-lg">Pesanan</td>
-                                        <td class="font-lg">: {{$tgls[$i]->pesanan->paket->nama_paket}}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="font-lg">Request</td>
-                                        <td class="font-lg">: {{$tgls[$i]->pesanan->catatan}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                        <div class="parent">
+                            <div class="left">
+                                @if($tgls[$i]->pesanan->waktu->waktu == 'Lunch')
+                                <svg viewBox="0 0 10 10" class="inln" width="25" height="25">
+                                    <rect width="50" height="50" fill="yellow"/>
+                                    <text x="50%" y="50%" font-size=".5em" dominant-baseline="middle" text-anchor="middle">L</text>
+                                </svg>
+                                @else
+                                <svg x="0" y="0" viewBox="0 0 10 10" class="inln" width="25" height="25">
+                                    <rect width="50" height="50" fill="cyan"/>
+                                    <text x="50%" y="50%" font-size=".5em"  dominant-baseline="middle" text-anchor="middle">D</text>
+                                </svg>
+                                @endif
+                            </div>
+                            <div class="center"><h5>{{$tgls[$i]->pesanan->konsumen->nama}}</h5></div>
+                            <div class="right"></div>
+                        </div>
+                            <h5 class="cntr">{{$tgls[$i]->pesanan->konsumen->no_hp}}</h5>
+                            <p class="cntr font-lg">{{$tgls[$i]->pesanan->konsumen->alamat}}</p>
+                            <p class="font-lg">Pesanan : {{$tgls[$i]->pesanan->paket->nama_paket}}</p>
+                            <p class="font-lg">Request : {{$tgls[$i]->pesanan->catatan}}</p>
                         </div>
                     </div>
                 </div>
                 @endif
                 @endfor
             </div>
-            <button type="button" class="btn btn-primary page-screen" onclick="printNota()">Cetak Daftar</button>
         </div>
+        
     </div>
 @endsection
 @push('scripts')
