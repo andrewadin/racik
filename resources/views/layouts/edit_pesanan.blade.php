@@ -105,8 +105,8 @@
                                 </div>
                                 @enderror
                             </div>
-                            <input type="text" name="tipe" id="tipe" hidden disabled>
-                            <input type="text" name="harga" id="harga" hidden disabled>
+                            <input type="text" name="tipe" id="tipe" value="{{$pes->paket->tipe->nama_tipe}}" hidden disabled>
+                            <input type="text" name="harga" id="harga" value="{{$pes->paket->harga}}" hidden disabled>
                             <div class="form-group">
                                 <label for="">Tanggal Pengiriman</label>
                                 <div class="input-group">
@@ -201,16 +201,16 @@
     });
 </script>
 <script>
-    $('.datepicker').datepicker({
-        language: "id",
-        multidate: true,
-        format: 'yyyy-mm-dd',
-        todayHighlight: true
-    });
-</script>
-<script>
     // Ajax get data konsumen untuk emngisi data konsumen lama secara otomatis
         $(document).ready(function(){
+            console.log($('#harga').val());
+            console.log($('#tipe').val());
+            $('#tgl_pesan').datepicker({
+                language: "id",
+                multidate: true,
+                format: 'yyyy-mm-dd',
+                todayHighlight: true
+            });
             formatTotal($('#total').val());
             $("#konsumen_lama").on('change', function (){
                 console.log("berubah" + $(this).val())

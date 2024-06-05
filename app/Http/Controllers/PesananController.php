@@ -324,6 +324,8 @@ class PesananController extends Controller
             'waktu_id' => $request->waktu,
             'catatan' => $request->catatan,
             'jumlah' => count($s_tgl),
+            'diskon' => $request->diskon,
+            'harga_tambahan' => $request->hrg_tmb,
             'total' => $request->total,
         ]);
 
