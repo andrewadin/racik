@@ -5,7 +5,79 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert/sweetalert.css')}}"/>
+<style>
+    @media print {
+    @page{
+        size: A4;
+        margin: 0;
+    }
+    .page-screen {
+        display: none;
+     }
+    .page-print {
+        display: block;
+     }
+    .ftsz {
+        font-size: 1.5em;
+    }
+    .brdr {
+        border-collapse: collapse;
+        th{
+            border: 2px solid black;
+        }
+        td{
+            border: 2px solid black;
+        }
+        tr{
+            border: 2px solid black;
+        }
+    }
+    .img-sz{
+        width: 15%;
+        height: 15%;
+    }
+    .bold-brd{
+        border: 3px solid black;
+    }
+ }
+ .page-print {
+    display: none;
+ }
+ .ctnr{
+    height: 70px;
+ }
 
+ .ctnr img{
+    max-height: 100%;
+    max-width: 100%;
+ }
+
+ .cntr{
+    text-align: center;
+ }
+ .inln{
+    display: inline-block;
+    margin-right: 25%;
+ }
+
+ .font-lg{
+    font-size: large;
+ }
+ .crd{
+    justify-content: center;
+    border: 2px solid black;
+    background-color: white;
+    .body{
+        color: black;
+    }
+ }
+ .parent{
+    display: flex;
+ }
+ .left, .right {
+    flex: 1;
+  }
+</style>
 <style>
     td.details-control {
     background: url("{{asset('assets/images/details_open.png')}}") no-repeat center center;
