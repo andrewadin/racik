@@ -6,9 +6,6 @@
     .page-screen {
         display: none;
      }
-    .page-print {
-        display: block;
-     }
     .ftsz {
         font-size: 1.5em;
     }
@@ -31,9 +28,6 @@
     .bold-brd{
         border: 3px solid black;
     }
- }
- .page-print {
-    display: none;
  }
  .ctnr{
     height: 70px;

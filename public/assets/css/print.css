@@ -7,10 +7,10 @@
         display: none;
      }
     .page-print {
-        display: block;
+        display:block;
      }
     .ftsz {
-        font-size: 1.5em;
+        font-size: 1.4em;
     }
     .brdr {
         border-collapse: collapse;
@@ -31,9 +31,6 @@
     .bold-brd{
         border: 3px solid black;
     }
- }
- .page-print {
-    display: none;
  }
  .ctnr{
     height: 70px;

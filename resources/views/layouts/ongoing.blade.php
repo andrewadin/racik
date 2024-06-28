@@ -6,79 +6,6 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css">
 <link rel="stylesheet" href="{{asset('assets/vendor/sweetalert/sweetalert.css')}}"/>
 <style>
-    @media print {
-    @page{
-        size: A4;
-        margin: 0;
-    }
-    .page-screen {
-        display: none;
-     }
-    .page-print {
-        display: block;
-     }
-    .ftsz {
-        font-size: 1.5em;
-    }
-    .brdr {
-        border-collapse: collapse;
-        th{
-            border: 2px solid black;
-        }
-        td{
-            border: 2px solid black;
-        }
-        tr{
-            border: 2px solid black;
-        }
-    }
-    .img-sz{
-        width: 15%;
-        height: 15%;
-    }
-    .bold-brd{
-        border: 3px solid black;
-    }
- }
- .page-print {
-    display: none;
- }
- .ctnr{
-    height: 70px;
- }
-
- .ctnr img{
-    max-height: 100%;
-    max-width: 100%;
- }
-
- .cntr{
-    text-align: center;
- }
- .inln{
-    display: inline-block;
-    margin-right: 25%;
- }
-
- .font-lg{
-    font-size: large;
- }
- .crd{
-    justify-content: center;
-    border: 2px solid black;
-    background-color: white;
-    .body{
-        color: black;
-    }
- }
- .parent{
-    display: flex;
- }
- .left, .right {
-    flex: 1;
-  }
-</style>
-<style>
     td.details-control {
     background: url("{{asset('assets/images/details_open.png')}}") no-repeat center center;
     cursor: pointer;
@@ -113,13 +40,13 @@
             </div>
             <div class="row">
                 @for($i = 0;$i < count($tgls); $i++)
-                @if($tgls[$i]->pesanan != NULL)
+                @if($tgls[$i]->pesanan != NULL || $tgls[$i]->waktu->waktu != NULL)
                 <div class="col-4 col-sm-4 bold-brd crd">
                     <div id="crd">
                         <div class="body">
                         <div class="parent">
                             <div class="left">
-                                @if($tgls[$i]->pesanan->waktu->waktu == 'Lunch')
+                                @if($tgls[$i]->waktu->waktu == 'Lunch')
                                 <svg viewBox="0 0 10 10" class="inln" width="25" height="25">
                                     <rect width="50" height="50" fill="yellow"/>
                                     <text x="50%" y="50%" font-size=".5em" dominant-baseline="middle" text-anchor="middle">L</text>
@@ -136,8 +63,8 @@
                         </div>
                             <h5 class="cntr">{{$tgls[$i]->pesanan->konsumen->no_hp}}</h5>
                             <p class="cntr font-lg">{{$tgls[$i]->pesanan->konsumen->alamat}}</p>
-                            <p class="font-lg">Pesanan : {{$tgls[$i]->pesanan->paket->nama_paket}}</p>
-                            <p class="font-lg">Request : {{$tgls[$i]->pesanan->catatan}}</p>
+                            <p class="font-lg">Pesanan : {{$tgls[$i]->menu->paket->nama_paket}}</p>
+                            <p class="font-lg">Request : {{$tgls[$i]->catatan}}</p>
                         </div>
                     </div>
                 </div>

@@ -5,7 +5,7 @@
 @endsection
 @section('content')
 <div id="main-content">
-    <div class="container-fluidpage-screen">
+    <div class="container-fluid">
         <div class="block-header page-screen">
             <div class="row">
                 <div class="col-lg-6 col-md-8 col-sm-12">
@@ -20,7 +20,6 @@
         </div>
         <div class="row clearfix">
             <div class="col-lg-12">
-                @foreach($pesanan as $pes)
                 <div class="card page-print ftsz">
                     <div class="header">
                         <span><img src="{{asset('assets/images/logo_racik.jpg')}}" alt="Pesanan Catering {{$no_nota}}" style="width:15%;height:15%;"></span>
@@ -35,28 +34,131 @@
                             <tbody>
                                 <tr>
                                     <td>Nomor Nota</td>
-                                    <td>: {{$pes->no_nota}}</td>
+                                    <td>: {{$no_nota}}</td>
                                 </tr>
                                 <tr>
                                     <td>Nama</td>
-                                    <td>: {{$pes->konsumen->nama}}</td>
+                                    <td>: {{$nama}}</td>
                                 </tr>
                                 <tr>
                                     <td>Nomor HP</td>
-                                    <td>: {{$pes->konsumen->no_hp}}</td>
+                                    <td>: {{$no_hp}}</td>
                                 </tr>
                                 <tr>
                                     <td>Alamat</td>
-                                    <td>: {{$pes->konsumen->alamat}}</td>
+                                    <td>: {{$alamat}}</td>
                                 </tr>
+                                @for($i = 0; $i< count($pnm); $i++)
                                 <tr>
                                     <td>Paket yang dipesan</td>
-                                    <td>: {{$pes->paket->nama_paket}}</td>
+                                    <td>: {{$pnm[$i]}}</td>
                                 </tr>
                                 <tr>
                                     <td>Pengirimian</td>
-                                    @if($tipe != 'Bulanan')
-                                    <td><table id="tbl" class="table table-bordered brdr" style="text-align:center;">
+                                    @if($ptp[$i] == 'Harian')
+                                        <td><table id="tbl1" class="tbl table table-bordered brdr" style="text-align:center;">
+                                            <thead>
+                                                <th>Senin</th>
+                                                <th>Selasa</th>
+                                                <th>Rabu</th>
+                                                <th>Kamis</th>
+                                                <th>Jum'at</th>
+                                                <th>Sabtu</th>
+                                            </thead>
+                                            <tbody>
+                                                @if($pjl[$i] <= 6)
+                                                <tr>
+                                                    @for($j = 0; $j < count($arr_ps[$i]); $j++)
+                                                        <td>
+                                                            {{$arr_ps[$i][$j]}}
+                                                        </td>
+                                                    @endfor
+                                                </tr>
+                                                @else
+                                                    @for($j = 0; $j < count($arr_ps[$i]); $j++)
+                                                        <tr>
+                                                            @for($k = 0; $k < count($arr_ps[$i][$j]); $k++)
+                                                            <td>
+                                                                {{$arr_ps[$i][$j][$k]}}
+                                                            </td>
+                                                            @endfor
+                                                        </tr>
+                                                    @endfor
+                                                @endif
+                                            </tbody>
+                                        </table></td>
+                                    @elseif($ptp[$i] == 'Mingguan')
+                                    <td><table id="tbl1" class="tbl table table-bordered brdr" style="text-align:center;">
+                                            <thead>
+                                                <th>Senin</th>
+                                                <th>Selasa</th>
+                                                <th>Rabu</th>
+                                                <th>Kamis</th>
+                                                <th>Jum'at</th>
+                                                <th>Sabtu</th>
+                                            </thead>
+                                            <tbody>
+                                                @for($j = 0; $j < count($arr_ps[$i]); $j++)
+                                                    <tr>
+                                                        @for($k = 0; $k < count($arr_ps[$i][$j]); $k++)
+                                                        <td>
+                                                            {{$arr_ps[$i][$j][$k]}}
+                                                        </td>
+                                                        @endfor
+                                                    </tr>
+                                                @endfor
+                                            </tbody>
+                                        </table></td>
+                                    @else
+                                    <td>: {{$bln_jml}} Bulan</td>
+                                    @endif
+                                </tr>
+                                <tr>
+                                    <td>Waktu Pengiriman</td>
+                                    <td>: {{$pwt[$i]}}</td>
+                                </tr>
+                                @if($arr_ct != [[]])
+                                    @if($ptp[$i] == 'Harian')
+                                    <tr>
+                                        <td>Catatan</td>
+                                        <td>
+                                            <table id="tbl2" class="tbl table table-bordered brdr" style="text-align:center;">
+                                                <thead>
+                                                    <th>Senin</th>
+                                                    <th>Selasa</th>
+                                                    <th>Rabu</th>
+                                                    <th>Kamis</th>
+                                                    <th>Jum'at</th>
+                                                    <th>Sabtu</th>
+                                                </thead>
+                                                <tbody>
+                                                    @if($pjl[$i] <= 6)
+                                                    <tr>
+                                                        @for($j = 0; $j < count($arr_ps[$i]); $j++)
+                                                            <td>
+                                                                {{$arr_ct[$i][$j]}}
+                                                            </td>
+                                                        @endfor
+                                                    </tr>
+                                                    @else
+                                                        @for($j = 0; $j < count($arr_ps[$i]); $j++)
+                                                            <tr>
+                                                                @for($k = 0; $k < count($arr_ps[$i][$j]); $k++)
+                                                                <td>
+                                                                    {{$arr_ct[$i][$j][$k]}}
+                                                                </td>
+                                                                @endfor
+                                                            </tr>
+                                                        @endfor
+                                                    @endif
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                    @elseif($ptp[$i] == 'Mingguan')
+                                    <tr>
+                                        <td>Catatan</td>
+                                    <td><table id="tbl1" class="tbl table table-bordered brdr" style="text-align:center;">
                                         <thead>
                                             <th>Senin</th>
                                             <th>Selasa</th>
@@ -66,52 +168,42 @@
                                             <th>Sabtu</th>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                            @foreach($arr_pes as $aps)
-                                                <td>
-                                                    {{$aps}}
-                                                </td>
-                                            @endforeach
-                                            </tr>
+                                            @for($j = 0; $j < count($arr_ct[$i]); $j++)
+                                                <tr>
+                                                    @for($k = 0; $k < count($arr_ct[$i][$j]); $k++)
+                                                    <td>
+                                                        {{$arr_ct[$i][$j][$k]}}
+                                                    </td>
+                                                    @endfor
+                                                </tr>
+                                            @endfor
                                         </tbody>
                                     </table></td>
-                                    @else
-                                    <td>: Bulan {{$pes->tgl_kirim[0]["tgl_kirim"]->isoFormat('MMMM')}} (1 Bulan)</td>
+                                    </tr>
                                     @endif
-                                </tr>
-                                <tr>
-                                    <td>Waktu Pengiriman</td>
-                                    <td>: {{$pes->waktu->waktu}}</td>
-                                </tr>
-                                <tr>
-                                    <td>Catatan</td>
-                                    <td>: 
-                                        @if($pes->catatan != NULL)
-                                        {{$pes->catatan}}
-                                        @else
-                                        -
-                                        @endif
-                                    </td>
-                                </tr>
+                                @endif
                                 <tr>
                                     <td>Biaya</td>
-                                    @if($tipe != 'Bulanan')
-                                    <td>: <span>Rp. </span>{{number_format($pes->paket->harga, 0, ',', '.')}} x {{count($pes->tgl_kirim)}}</td>
+                                    @if($ptp[$i] == 'Harian')
+                                    <td>: <span>Rp. </span>{{number_format($phr[$i], 0, ',', '.')}} x {{$pjl[$i]}}</td>
+                                    @elseif($ptp[$i] == 'Mingguan')
+                                    <td>: <span>Rp. </span>{{number_format($phr[$i], 0, ',', '.')}} x {{$pjl[$i]/6}}</td>
                                     @else
-                                    <td>: <span>Rp. </span>{{number_format($pes->total, 0, ',', '.')}}<span> (1 Bulan)</span></td>
+                                    <td>: <span>Rp. </span>{{number_format($phr[$i], 0, ',', '.')}} x {{$bln_jml}}</td>
                                     @endif
                                 </tr>
+                                @endfor
                                 <tr>
                                     <td>Tambahan</td>
-                                    <td>: <span>Rp. </span>{{number_format($pes->harga_tambahan, 0, ',', '.')}}</td>
+                                    <td>: <span>Rp. </span>{{number_format($hrg_tmb, 0, ',', '.')}}</td>
                                 </tr>
                                 <tr>
                                     <td>Diskon</td>
-                                    <td>: {{$pes->diskon}}<span>%</span></td>
+                                    <td>: <span>Rp. </span>{{number_format($diskon, 0, ',', '.')}}</td>
                                 </tr>
                                 <tr>
                                     <td>Total</td>
-                                    <td>: <span>Rp. </span>{{number_format($pes->total, 0, ',', '.')}}</td>
+                                    <td>: <span>Rp. </span>{{number_format($total, 0, ',', '.')}}</td>
                                 </tr>
                                 <tr>
                                     <td>Nomor Admin</td>
@@ -122,14 +214,9 @@
                     </div>
                 </div>
                 <div class="form-group col-lg-12 page-screen">
-                    @if($tipe != 'Bulanan')
                     <button type="button" class="btn btn-primary " onclick="printNota()">Cetak Nota</button>
-                    @else
-                    <button type="button" class="btn btn-primary " onclick="printNt()">Cetak Nota</button>
-                    @endif
                     <a href="{{'/pesanan'}}" class="btn btn-secondary ">Kembali</a>
                 </div>
-                @endforeach
             </div>
         </div>
     </div>
@@ -152,19 +239,24 @@
 <script>
     function printNota(){
         var element = document.getElementById("bd");
-        var table = document.getElementById("tbl");
-        table.classList.remove("table-bordered");
+        var table = document.getElementsByClassName("tbl");
+        for (let i = 0; i < table.length; i++) {
+            table[i].classList.remove("table-bordered");
+            
+        }
         element.classList.add("layout-fullwidth");
         window.print();
         element.classList.remove("layout-fullwidth");
-        table.classList.add("table-bordered");
+        for (let i = 0; i < table.length; i++) {
+            table[i].classList.add("table-bordered");
+        }
     }
-    function printNt(){
-        var element = document.getElementById("bd");
-        element.classList.add("layout-fullwidth");
-        window.print();
-        element.classList.remove("layout-fullwidth");
-    }
+    // function printNt(){
+    //     var element = document.getElementById("bd");
+    //     element.classList.add("layout-fullwidth");
+    //     window.print();
+    //     element.classList.remove("layout-fullwidth");
+    // }
 </script>
 
 @endpush

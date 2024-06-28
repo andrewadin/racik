@@ -59,10 +59,7 @@
                                             <th>No</th>
                                             <th>No Nota</th>
                                             <th>Nama Konsumen</th>
-                                            <th>Nama Paket</th>
-                                            <th>Waktu Makan</th>
                                             <th>Alamat</th>
-                                            <th>Catatan</th>
                                             <th>Diskon</th>
                                             <th>Harga Tambahan</th>
                                             <th>Total Harga</th>
@@ -74,10 +71,7 @@
                                             <th>No</th>
                                             <th>No Nota</th>
                                             <th>Nama Konsumen</th>
-                                            <th>Nama Paket</th>
-                                            <th>Waktu Makan</th>
                                             <th>Alamat</th>
-                                            <th>Catatan</th>
                                             <th>Diskon</th>
                                             <th>Harga Tambahan</th>
                                             <th>Total Harga</th>
@@ -93,20 +87,9 @@
                                             <td>{{$i}}</td>
                                             <td>{{$pes->no_nota}}</td>
                                             <td>{{$pes->konsumen->nama}}</td>
-                                            <td>{{$pes->paket->nama_paket}}</td>
-                                            <td>{{$pes->waktu->waktu}}</td>
                                             <td>
                                                 <div class="cut-words">
                                                     {{$pes->konsumen->alamat}}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="cut-words">
-                                                    @if($pes->catatan == NULL)
-                                                    -
-                                                    @else
-                                                    {{$pes->catatan}}
-                                                    @endif
                                                 </div>
                                             </td>
                                             <td>Rp. </span>{{number_format($pes->diskon), 3, '.'}}</td>

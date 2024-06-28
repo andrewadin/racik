@@ -40,7 +40,8 @@ Route::get('/pesanan', [PesananController::class, 'index']);
 Route::get('/pesanan/baru', [PesananController::class, 'baru']);
 Route::get('/ongoing', [PesananController::class, 'ongoing'])->name('home');
 Route::get('/pesanan/{no_nota}', [PesananController::class, 'edit']);
-Route::post('/pesanan', [PesananController::class, 'store']);
+Route::post('/pesanan/simpan', [PesananController::class, 'store']);
+Route::post('/pesanan/step2', [PesananController::class, 'baru_next']);
 Route::put('/pesanan', [PesananController::class, 'update']);
 Route::delete('/pesanan', [PesananController::class, 'delete']);
 

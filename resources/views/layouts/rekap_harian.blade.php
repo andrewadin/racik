@@ -150,16 +150,20 @@ Rekap {{$rekap}} Catering {{$temp}}
                                         @php
                                         $i = 1;
                                         @endphp
-                                        @foreach($tgls as $tgl)
+                                        @foreach($pesanan as $pes)
                                         <tr>
                                             <td>{{$i}}</td>
-                                            <td>{{$tgl->pesanan->no_nota}}</td>
-                                            <td>{{$tgl->pesanan->konsumen->nama}}</td>
-                                            <td>{{$tgl->pesanan->paket->nama_paket}}</td>
-                                            <td>{{$tgl->pesanan->diskon}} <span>%</span></td>
-                                            <td><span>Rp. </span>{{number_format($tgl->pesanan->harga_tambahan), 3, '.'}}</td>
-                                            <td><span>Rp. </span>{{number_format($tgl->pesanan->total), 3, '.'}}</td>
-                                            <td>{{$tgl->pesanan->created_at->format('d-m-Y')}}</td>
+                                            <td>{{$pes->no_nota}}</td>
+                                            <td>{{$pes->konsumen->nama}}</td>
+                                            <td>
+                                            @for($j = 0; $j < count($pes->menu); $j++)
+                                            {{$j+1}}. {{$pes->menu[$j]->paket->nama_paket}}<br>
+                                            @endfor
+                                            </td>
+                                            <td><span>Rp. </span>{{number_format($pes->diskon), 3, '.'}}</td>
+                                            <td><span>Rp. </span>{{number_format($pes->harga_tambahan), 3, '.'}}</td>
+                                            <td><span>Rp. </span>{{number_format($pes->total), 3, '.'}}</td>
+                                            <td>{{$pes->created_at->format('d-m-Y')}}</td>
                                         </tr>
                                         @php
                                         $i++;

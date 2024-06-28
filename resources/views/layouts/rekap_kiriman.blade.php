@@ -71,15 +71,11 @@
                                         $i = 1;
                                         @endphp
                                         @foreach($pesanan as $pes)
-                                        @if($pes->tgl_kirim->isEmpty())
-                                        @php
-                                        $i--;
-                                        @endphp
-                                        @else
+                                        @if($pes->menu != NULL)
                                         <tr>
                                             <td>{{$i}}</td>
-                                            <td>{{$pes->paket->nama_paket}}</td>
-                                            <td>{{$pes->konsumen->nama}}</td>
+                                            <td>{{$pes->menu->paket->nama_paket}}</td>
+                                            <td>{{$pes->pesanan->konsumen->nama}}</td>
                                             <td>
                                                 <div>
                                                     @if($pes->catatan == NULL)
@@ -89,10 +85,10 @@
                                                     @endif
                                                 </div>
                                             </td>
-                                            <td>{{$pes->konsumen->no_hp}}</td>
+                                            <td>{{$pes->pesanan->konsumen->no_hp}}</td>
                                             <td>
                                                 <div>
-                                                    <p>{{$pes->konsumen->alamat}}</p>
+                                                    <p>{{$pes->pesanan->konsumen->alamat}}</p>
                                                     
                                                 </div>
                                             </td>

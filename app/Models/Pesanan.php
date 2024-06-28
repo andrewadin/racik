@@ -25,9 +25,8 @@ class Pesanan extends Model
     {
         return $this->hasMany(TanggalKirim::class, 'pesanan_id');
     }
-
-    public function waktu()
+    public function menu()
     {
-        return $this->belongsTo(WaktuKirim::class, 'waktu_id');
+        return $this->hasMany(MenuPesanan::class, 'pesanan_id');
     }
 }

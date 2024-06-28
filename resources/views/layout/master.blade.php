@@ -16,13 +16,81 @@
 
 <!-- MAIN CSS -->
 <link rel="stylesheet" href="{{asset('assets/css/main.css')}}">
-<link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/blog.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/color_skins.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/app.css')}}">
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<style>
+    @media print {
+    @page{
+        size: A4;
+        margin: 0;
+    }
+    .page-screen {
+        display: none;
+     }
+    .page-print {
+        display: block;
+     }
+    .ftsz {
+        font-size: 1.5em;
+    }
+    .brdr {
+        border-collapse: collapse;
+        th{
+            border: 2px solid black;
+        }
+        td{
+            border: 2px solid black;
+        }
+        tr{
+            border: 2px solid black;
+        }
+    }
+    .img-sz{
+        width: 15%;
+        height: 15%;
+    }
+    .bold-brd{
+        border: 3px solid black;
+    }
+ }
+ .ctnr{
+    height: 70px;
+ }
 
+ .ctnr img{
+    max-height: 100%;
+    max-width: 100%;
+ }
+
+ .cntr{
+    text-align: center;
+ }
+ .inln{
+    display: inline-block;
+    margin-right: 25%;
+ }
+
+ .font-lg{
+    font-size: large;
+ }
+ .crd{
+    justify-content: center;
+    border: 2px solid black;
+    background-color: white;
+    .body{
+        color: black;
+    }
+ }
+ .parent{
+    display: flex;
+ }
+ .left, .right {
+    flex: 1;
+  }
+</style>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
 @yield('css')

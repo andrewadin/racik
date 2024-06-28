@@ -15,10 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('no_nota');
             $table->unsignedBigInteger('konsumen_id');
-            $table->unsignedBigInteger('paket_id');
-            $table->unsignedBigInteger('waktu_id');
-            $table->text('catatan')->nullable();
-            $table->Integer('jumlah');
             $table->double('diskon');
             $table->double('harga_tambahan');
             $table->double('total');
@@ -27,18 +23,6 @@ return new class extends Migration
             $table->foreign('konsumen_id')
                   ->references('id')
                   ->on('konsumens')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
-
-            $table->foreign('paket_id')
-                  ->references('id')
-                  ->on('pakets')
-                  ->onDelete('cascade')
-                  ->onUpdate('cascade');
-
-            $table->foreign('waktu_id')
-                  ->references('id')
-                  ->on('waktu_kirims')
                   ->onDelete('cascade')
                   ->onUpdate('cascade');
         });
