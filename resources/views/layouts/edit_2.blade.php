@@ -25,8 +25,9 @@
                         <h2>Pesanan Catering Baru</h2>                       
                     </div>
                     <div class="body">
-                        <form action="{{ '/pesanan/edit_2' }}" method="post">
+                        <form action="{{ '/pesanan' }}" method="post">
                         @csrf
+                        @method('PUT')
                         <div class="form-group">
                             <label for="no_nota">Nomor Nota</label>
                             <input type="text" class="form-control ipt @error('no_nota') is-invalid @enderror" id="no_nota" name="no_nota" value="{{$no_nota}}" readonly>
@@ -36,25 +37,11 @@
                             </div>
                             @enderror
                         </div>
-                        <h5>Konsumen Lama</h5>
-                        <div class="form-group">
-                            <select class="form-control ipt kons @error('konsumen_lama') is-invalid @enderror" name="konsumen_lama" id="konsumen_lama">
-                                <option id="opsi_kml"></option>
-                                @foreach($konsumen as $kon)
-                                <option value="{{$kon->id}}" {{$k_id == $kon->id ? 'selected' : ''}} >{{$kon->nama}}</option>
-                                @endforeach
-                            </select>
-                            @error('konsumen_lama')
-                            <div class="invalid-feedback">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
                         <hr>
                         <div class="form-group">
                             <label for="nama_konsumen">Nama Konsumen</label>
-                            <input type="text" name="id_kon" id="id_kon" hidden>
-                            <input type="text" class="form-control ipt @error('nama_konsumen') is-invalid @enderror" id="nama_konsumen" name="nama_konsumen" value="{{old('nama', $pesanan[0]->konsumen->nama)}}" placeholder="Nama Konsumen" required>
+                            <input type="text" name="id_kon" id="id_kon"  value="{{$idks}}"hidden>
+                            <input type="text" class="form-control ipt @error('nama_konsumen') is-invalid @enderror" id="nama_konsumen" name="nama_konsumen" placeholder="Nama Konsumen"  value="{{$nks}}" readonly>
                             @error('nama_konsumen')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -63,7 +50,7 @@
                         </div>
                         <div class="form-group">
                             <label for="no_hp">No. HP Konsumen</label>
-                            <input type="text" class="form-control ipt @error('no_hp') is-invalid @enderror" id="no_hp" name="no_hp" value="{{old('no_hp', $pesanan[0]->konsumen->no_hp)}}" placeholder="No. HP Konsumen" required>
+                            <input type="text" class="form-control ipt @error('no_hp') is-invalid @enderror" id="no_hp" name="no_hp" placeholder="No. HP Konsumen" value="{{$hpks}}" readonly>
                             @error('no_hp')
                             <div class="invalid-feedback">
                                 {{ $message }}
@@ -72,68 +59,94 @@
                         </div>
                         <div class="form-group">
                             <label for="summernote">Alamat Konsumen</label>
-                            <textarea name="summernote" id="summernote" class="form-control @error('summernote') is-invalid @enderror" placeholder="Alamat Konsumen" style="height:200px;" required>{{$pesanan[0]->konsumen->alamat}}</textarea>
+                            <textarea name="summernote" id="summernote" class="form-control @error('summernote') is-invalid @enderror" placeholder="Alamat Konsumen" style="height:200px;" readonly>{{$alks}}</textarea>
                             @error('summernote')
                             <div class="invalid-feedback">
                                 {{ $message }}
                             </div>
                             @enderror
                         </div>
+                        @for($i=0; $i < count($npkt); $i++)
+                        <h5>{{$npkt[$i]}} ({{$waktu[$i]}})</h5>
+                        <input type="text" name="pkt[{{$i}}]" id="pkt[{{$i}}]" value="{{$paket[$i]}}" hidden>
+                        <input type="text" name="wkt[{{$i}}]" id="wkt[{{$i}}]" value="{{$wkt[$i]}}" hidden>
+                        <input type="text" name="hrg[{{$i}}]" id="hrg[{{$i}}]" value="{{$hrg[$i]}}" hidden>
                         <table class="table">
                             <thead>
-                                <th>Paket</th>
-                                <th>Tanggal Pengiriman</th>
-                                <th>Waktu Makan</th>
-                                <th><a href="#" class="btn btn-success add_more"><i class="fa fa-plus-square"></i></a></th>
+                                <th>Taggal Pengiriman</th>
+                                <th>Catatan</th>
                             </thead>
-                            <tbody class="add-pkt">
-                                @for($i = 0; $i < count($p_id); $i++)
+                            <tbody>
+                                @for($j=0; $j < count($tgl_pesan[$i]); $j++)
                                 <tr>
-                                    <td>
-                                        <div class="form-group">
-                                            <select class="form-control ipt paket @error('paket') is-invalid @enderror" name="paket[]" id="paket" style="width:100%;" required>
-                                                <option id="opsi_kml"></option>
-                                                @foreach($paket as $pak)
-                                                <option value="{{$pak->id}}" {{$p_id[$i] == $pak->id ? 'selected' : ''}} >{{$pak->nama_paket}}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('paket')
-                                            <div class="invalid-feedback">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror
-                                        </div>
-                                    </td>
                                     <td>
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text"><i class="icon-calendar"></i></span>
                                                 </div>
-                                                <input data-provide="datepicker" id="tgl_pesan" name="tgl_pesan[]" data-date-autoclose="false" class="form-control datepicker" value="{{old('tgl', $tgl[$i])}}" placeholder="Tanggal Pesan" required>
+                                                <input type="text" id="tgl_pesan[{{$i}}][{{$j}}]" name="tgl_pesan[{{$i}}][{{$j}}]" data-date-autoclose="false" class="form-control" placeholder="Tanggal Pesan" value="{{$tgl_pesan[$i][$j]->format('Y-m-d')}}" hidden>
+                                                <input type="text" id="vtgl_pesan" name="vtgl_pesan[][]" data-date-autoclose="false" class="form-control" placeholder="Tanggal Pesan" value="{{$tgl_pesan[$i][$j]->isoFormat('dddd, D-MM-Y')}}" readonly>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="form-group">
-                                            <select class="form-control ipt @error('waktu') is-invalid @enderror waktu" name="waktu[]" id="waktu" required>
-                                                <option id="opsi_kml" selected disabled>Lunch / Dinner</option>
-                                                @foreach($waktu as $wkt)
-                                                <option value="{{$wkt->id}}" {{$wktx[$i] == $wkt->id ? 'selected' : ''}} >{{$wkt->waktu}}</option>
-                                                @endforeach
-                                            </select>
-                                            @error('waktu')
+                                            <input type="text" class="form-control ipt @error('catatan') is-invalid @enderror" id="catatan[{{$i}}][{{$j}}]" name="catatan[{{$i}}][{{$j}}]" placeholder="Catatan">
+                                            @error('catatan')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
                                             @enderror
                                         </div>
                                     </td>
-                                    <td><a href="#" class="btn btn-danger delete"><i class="fa fa-minus-square"></i></a></td>
+                                    <td> </td>
                                 </tr>
                                 @endfor
                             </tbody>
                         </table>
+                        @endfor
+                        <div id="add">
+                            <div class="form-group">
+                                <label for="">Harga Tambahan</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control ipt @error('hrg_tmb') is-invalid @enderror" id="hrg_tmb" name="hrg_tmb" value="0">
+                                </div>
+                                    @error('hrg_tmb')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="">Diskon</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control ipt @error('diskon') is-invalid @enderror" id="diskon" name="diskon" value="0">
+                                </div>
+                                @error('diskon')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                            </div>
+                            <div class="form-group">
+                                <label for="">Harga Khusus</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control ipt @error('hrg_kh') is-invalid @enderror" id="hrg_kh" name="hrg_kh">
+                                </div>
+                                @error('hrg_kh')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="">Total</label>
+                            <input type="text" name="vtotal" id="vtotal" class="form-control vtotal" readonly>
+                            <input type="text" name="total" id="total" class="form-control" value="{{$total}}" hidden>
+                            <input type="text" name="temp_total" id="temp_total" class="form-control" value="{{$total}}" hidden>
+                        </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-primary">Selanjutnya</button>
                             <a class="btn btn-secondary" href="{{ '/pesanan' }}">Kembali</a>
@@ -144,32 +157,6 @@
         </div>
     </div>
 </div>
-<div class="form-group">
-    <select class="form-control ipt paket2 @error('paket') is-invalid @enderror" name="paket2[]" id="paket2" style="width:100%;" disabled hidden>
-        <option id="opsi_kml"></option>
-        @foreach($paket as $pak)
-        <option value="{{$pak->id}}">{{$pak->nama_paket}}</option>
-        @endforeach
-    </select>
-    @error('paket')
-    <div class="invalid-feedback">
-        {{ $message }}
-    </div>
-    @enderror
-</div>
-<div class="form-group">
-    <select class="form-control ipt @error('waktu') is-invalid @enderror waktu2" name="waktu2[]" id="waktu2" disabled hidden>
-        <option id="opsi_kml" selected disabled>Lunch / Dinner</option>
-        @foreach($waktu as $wkt)
-        <option value="{{$wkt->id}}">{{$wkt->waktu}}</option>
-        @endforeach
-    </select>
-    @error('waktu')
-    <div class="invalid-feedback">
-        {{ $message }}
-    </div>
-    @enderror
-</div>
 @endsection
 @push('scripts')
 <script src="{{asset('assets/vendor/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
@@ -177,12 +164,12 @@
 <script src="{{asset('assets/js/bootstrap-datepicker.id.min.js')}}" charset="UTF-8"></script>
 <script>
     $(function(){
-        if($('.kons').length > 0) {
-            $('.kons').select2({
-                placeholder: "Pilih Konsumen Lama",
-                allowClear: true
-            });
-        }
+        // if($('.kons').length > 0) {
+        //     $('.kons').select2({
+        //         placeholder: "Pilih Konsumen Lama",
+        //         allowClear: true
+        //     });
+        // }
         if($('.paket').length > 0){
             $('.paket').select2({
                 placeholder: "Pilih Paket Catering",
@@ -211,7 +198,8 @@
                 }
 
             });
-        });
+            var total = $('#total').val();
+            formatTotal(total);
         //     $('#chg').on('change', function (event){
         //         var elem = event.target;
         //         let hrg = [];
@@ -239,40 +227,47 @@
         //             }
         //         }
         //     });
-        //     $('#add').on('change', function (event){
-        //         let elem = event.target;
-        //         if(elem.name === 'diskon' || elem.name === 'hrg_tmb'){
-        //             let arr = $('#tgl_pesan').val().split(',');
-        //             let disk = $('#diskon').val() - 0;
-        //             let tmb = $('#hrg_tmb').val() - 0;
-        //             let hrg = $('#harga').val();
-        //             let jml = arr.length;
-        //             let tipe = $('#tipe').val();
-        //             if(tipe == 'Harian'){
-        //                 let total = (hrg * jml) - disk + tmb ;
-        //                 $('#total').val(total);
-        //                 $('#vtotal').val(total);
-        //                 formatTotal(total);
-        //             }else{
-        //                 let total = hrg - disk + tmb;
-        //                 $('#total').val(total)
-        //                 $('#vtotal').val(total)
-        //                 formatTotal(total);
-        //             }
-        //         }
-        //     });
+            $('#add').on('change', function (event){
+                let elem = event.target;
+                if(elem.name === 'diskon' || elem.name === 'hrg_tmb'){
+                    let temp = $('#temp_total').val() - 0;
+                    let disk = $('#diskon').val() - 0;
+                    let tmb = $('#hrg_tmb').val() - 0;
+                    let total = $('#total').val() - 0;
+                    if(disk == 0){
+                        total = temp + tmb;
+                        $('#total').val(total);
+                        $('#vtotal').val(total);
+                        formatTotal(total);
+                    }else if(tmb == 0){
+                        total = temp - disk;
+                        $('#total').val(total);
+                        $('#vtotal').val(total);
+                        formatTotal(total);
+                    }else if(disk == 0 && tmb == 0){
+                        $('#total').val(temp);
+                        $('#vtotal').val(temp);
+                        formatTotal(temp);
+                    }else{
+                        total = temp + tmb - disk;
+                        $('#total').val(total);
+                        $('#vtotal').val(total);
+                        formatTotal(total);
+                    }
+                }
+            });
                 
-        // });
-        // function formatTotal(tot){
-        //     var fixtotal = new Intl.NumberFormat("id-ID", {
-        //             style: "currency",
-        //             currency: "IDR"
-        //         }).format(tot).replace(',00', '').replace('Rp', '');
-        //         $('.vtotal').val(fixtotal);
-        // }
+        });
+        function formatTotal(tot){
+            var fixtotal = new Intl.NumberFormat("id-ID", {
+                    style: "currency",
+                    currency: "IDR"
+                }).format(tot).replace(',00', '').replace('Rp', '');
+                $('.vtotal').val(fixtotal);
+        }
         $('.add_more').on('click', function() {
-            var paket = $('.paket2').html();
-            var waktu = $('.waktu2').html();
+            var paket = $('.paket').html();
+            var waktu = $('.waktu').html();
             var numberofrow = ($('.add-pkt tr').length - 0) + 1;
             var tr = '<tr>' +
                         '<td>' +

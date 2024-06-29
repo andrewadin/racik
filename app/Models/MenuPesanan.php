@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class MenuPesanan extends Model
 {
     use HasFactory;
+    protected $fillable = ['pesanan_id', 'paket_id', 'harga', 'jumlah'];
 
     public function pesanan()
     {

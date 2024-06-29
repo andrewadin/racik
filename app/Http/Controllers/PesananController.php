@@ -177,7 +177,7 @@ class PesananController extends Controller
                 $temp = ceil(count($tgl_pesan[$i]) / 6);
                 $total += $harga * $temp;
             }else if($tipe == 'Bulanan'){
-                $temp = ceil(count($tgl_pesan[$i]) / 30);
+                $temp = ceil(count($tgl_pesan[$i]) / 27);
                 $total += $harga * $temp;
             }
             for ($j=0; $j < count($tgl_pesan[$i]); $j++) { 
@@ -208,7 +208,7 @@ class PesananController extends Controller
                 $alks = $ks->alamat;
             }
         }
-        return view('layouts.pesanan_baru_2', compact('idks', 'nks', 'hpks', 'alks', 'tgl_pesan', 'total', 'pakets', 'konsumen', 'waktu', 'no_nota', 'npkt', 'paket', 'wkt', 'hrg', 'temp'));
+        return view('layouts.pesanan_baru_2', compact('idks', 'nks', 'hpks', 'alks', 'tgl_pesan', 'total', 'pakets', 'konsumen', 'waktu', 'no_nota', 'npkt', 'paket', 'wkt', 'hrg'));
         // $s_tgl = explode(',', $request->tgl_pesan);
         // $total = 0;
         // if($request->h_khusus != null){
@@ -409,20 +409,108 @@ class PesananController extends Controller
     public function edit($no_nota)
     {
         $pesanan = Pesanan::with('tgl_kirim.waktu', 'tgl_kirim.menu')->where('no_nota', $no_nota)->get();
-        dd($pesanan);
         $paket = Paket::all();
         $konsumen = Konsumen::all();
         $waktu = WaktuKirim::all();
+        $wktx = array();
         $s_tgl = array();
-        $tgl = '';
+        $tgl = array();
+        $s_id = 0;
+        $p_id = array();
+        $cnt = 0;
         foreach($pesanan as $pes){
             $s_tgl = $pes->tgl_kirim;
+            $k_id = $pes->konsumen->id;
         }
-        $tgl = $s_tgl[0]["tgl_kirim"]->format('d-m-Y');
+        $tgl[0] = $s_tgl[0]->tgl_kirim->format('Y-m-d');
+        $m_id[0] = $s_tgl[0]->menu_id;
+        $p_id[0] = $s_tgl[0]->menu->paket->id;
+        $wktx[0] = $s_tgl[0]->waktu_id;
+        for ($i=0; $i < count($s_tgl); $i++) { 
+            if($s_tgl[$i]->waktu->waktu == 'Lunch' && $s_tgl[$i]->menu->id != $s_id){
+                $wkt[$cnt] = $s_tgl[$i]->waktu->id;
+                $s_id = $s_tgl[$i]->menu->id;
+                $cnt++;
+            }else if($s_tgl[$i]->waktu->waktu == 'Dinner' && $s_tgl[$i]->menu->id != $s_id){
+                $wkt[$cnt] = $s_tgl[$i]->waktu->id;
+                $s_id = $s_tgl[$i]->menu->id;
+                $cnt++;
+            }
+        }
+        $cnt = 0;
         for ($i=1; $i < count($s_tgl); $i++) { 
-            $tgl = $tgl . ',' . $s_tgl[$i]["tgl_kirim"]->format('d-m-Y');
+            if($s_tgl[$i]->menu->id == $m_id[$cnt]){
+                $tgl[$cnt] = $tgl[$cnt] . ',' . $s_tgl[$i]->tgl_kirim->format('Y-m-d');
+            }else{
+                $cnt++;
+                $m_id[$cnt] = $s_tgl[$i]->menu_id;
+                $p_id[$cnt] = $s_tgl[$i]->menu->paket->id;
+                $wktx[$cnt] = $s_tgl[$i]->waktu_id;
+                $tgl[$cnt] = $s_tgl[$i]->tgl_kirim->format('Y-m-d');
+            }
         }
-        return view('layouts.edit_pesanan', compact('pesanan', 'paket', 'konsumen', 'waktu', 'tgl'));
+
+
+        return view('layouts.edit_pesanan', compact('pesanan', 'paket', 'konsumen', 'waktu', 'tgl', 'no_nota', 'k_id', 'p_id', 'wktx'));
+    }
+
+    public function edit_next(Request $request){
+        $paket = $request->paket;
+        $wkt = $request->waktu;
+        $total = 0;
+        $pakets = Paket::all();
+        $konsumen = Konsumen::all();
+        for ($i=0; $i < count($request->tgl_pesan); $i++) { 
+            $tgl_pesan[$i] = explode(',', $request->tgl_pesan[$i]);
+            $stipe = Paket::with('tipe')->where('id', $paket[$i])->get();
+            $swt = WaktuKirim::where('id', $wkt[$i])->get();
+            foreach($stipe as $tip){
+                $npkt[$i] = $tip->nama_paket;
+                $tipe = $tip->tipe->nama_tipe;
+                $harga = $tip->harga;
+                $hrg[$i] = $tip->harga;
+            }
+            foreach ($swt as $st){
+                $waktu[$i] = $st->waktu;
+            }
+            if($tipe == 'Harian'){
+                $total += $harga * count($tgl_pesan[$i]);
+            }else if($tipe == 'Mingguan'){
+                $temp = ceil(count($tgl_pesan[$i]) / 6);
+                $total += $harga * $temp;
+            }else if($tipe == 'Bulanan'){
+                $temp = ceil(count($tgl_pesan[$i]) / 27);
+                $total += $harga * $temp;
+            }
+            for ($j=0; $j < count($tgl_pesan[$i]); $j++) { 
+                $tgl_pesan[$i][$j] = Carbon::createFromFormat('Y-m-d', $tgl_pesan[$i][$j]);
+            }
+        }
+        $no_nota = $request->no_nota;
+
+        if($request->konsumen_lama != NULL){
+            $idks = $request->konsumen_lama;
+            $nks = $request->nama_konsumen;
+            $hpks = $request->no_hp;
+            $alks = $request->summernote;
+        }else{
+            $konsumen = Konsumen::updateOrCreate(
+                        [
+                            'nama' => $request->nama_konsumen
+                        ],[
+                        'nama' => $request->nama_konsumen,
+                        'no_hp' => $request->no_hp,
+                        'alamat' => $request->summernote
+                    ]);
+            $kons = Konsumen::where('nama', $request->nama_konsumen)->get();
+            foreach($kons as $ks){
+                $idks = $ks->id;
+                $nks = $ks->nama;
+                $hpks = $ks->no_hp;
+                $alks = $ks->alamat;
+            }
+        }
+        return view('layouts.edit_2', compact('idks', 'nks', 'hpks', 'alks', 'tgl_pesan', 'total', 'pakets', 'konsumen', 'waktu', 'no_nota', 'npkt', 'paket', 'wkt', 'hrg'));
     }
 
     public function update(Request $request)
@@ -430,52 +518,88 @@ class PesananController extends Controller
         $rules = array(
             'id' => 'required',
             'no_nota' => 'required',
-            'konsumen_lama' => 'required',
-            'paket' => 'required',
+            'id_kon' => 'required',
+            'pkt' => 'required',
             'tgl_pesan' => 'required',
-            'waktu' => 'required',
+            'wkt' => 'required',
             'total' => 'required',
         );
 
         $messages = array(
             'id.required' => 'Pesanan tidak ditemukan',
             'no_nota.required' => 'Nomor nota tidak ditemukan',
-            'konsumen_lama.required' => 'Konsumen tidak ditemukan',
-            'paket.required' => 'Paket catering belum dipilih',
+            'id_kon.required' => 'Konsumen tidak ditemukan',
+            'pkt.required' => 'Paket catering belum dipilih',
             'tgl_pesan.required' => 'Tanggal pengiriman belum diisi',
-            'waktu.required' => 'Waktu pengiriman belum diisi',
+            'wkt.required' => 'Waktu pengiriman belum diisi',
             'total.required' => 'Total biaya belum terisi',
         );
-
-        $validator = Validator::make($request->all(), $rules, $messages);
-        if($validator->fails())
-        {
-            return redirect('/pesanan'.'/'.$request->no_nota)
-            ->withErrors($validator);
-        }
-        $s_tgl = explode(',', $request->tgl_pesan);
-        Pesanan::updateOrCreate([
-            'id' => $request->id
-        ],[
-            'no_nota' => $request->no_nota,
-            'konsumen_id' => $request->konsumen_lama,
-            'paket_id' => $request->paket,
-            'waktu_id' => $request->waktu,
-            'catatan' => $request->catatan,
-            'jumlah' => count($s_tgl),
-            'diskon' => $request->diskon,
-            'harga_tambahan' => $request->hrg_tmb,
-            'total' => $request->total,
-        ]);
-
-        foreach($s_tgl as $tgl){
-            TanggalKirim::updateOrCreate([
-                "pesanan_id" => $request->id
-            ],[
-                "tgl_kirim" => $tgl
+        
+        if($request->hrg_kh == NULL || $request->hrg_kh == 0){
+            Pesanan::updateOrCreate([
+                'no_nota' => $request->no_nota
+            ], [
+                'no_nota' => $request->no_nota,
+                'konsumen_id' => $request->id_kon,
+                'diskon' => $request->diskon,
+                'harga_tambahan' => $request->hrg_tmb,
+                'total' => $request->total,
+            ]);
+        }else{
+            Pesanan::updateOrCreate([
+                'no_nota' => $request->no_nota
+            ], [
+                'no_nota' => $request->no_nota,
+                'konsumen_id' => $request->id_kon,
+                'diskon' => $request->diskon,
+                'harga_tambahan' => $request->hrg_tmb,
+                'total' => $request->hrg_kh,
             ]);
         }
-        return redirect('/pesanan')->with('alert','Pesanan berhasil diperbarui');
+
+        $pes = Pesanan::where('no_nota', $request->no_nota)->get('id');
+        $tgl = [[]];
+        $stgl = TanggalKirim::where('pesanan_id', $pes[0]['id'])->get();
+        $m_id = $stgl[0]['menu_id'];
+        $tgl[0][0] = $stgl[0]['id'];
+        $x = 0;
+        $y = 0;
+        for ($i=1; $i < count($stgl); $i++) { 
+            if($stgl[$i]['menu_id'] != $m_id){
+                $x++;
+                $y = 0;
+                $tgl[$x][$y] = $stgl[$i]['id'];
+                $m_id = $stgl[$i]['menu_id'];
+            }else{
+                $y++;
+                $tgl[$x][$y] = $stgl[$i]['id'];
+            }
+        };
+        for ($i=0; $i < count($request->pkt); $i++) {
+            $mps = MenuPesanan::where('pesanan_id', $pes[0]['id'])->where('paket_id', $request->pkt[$i])->latest()->first();
+            $idms = $mps->id;
+            
+            MenuPesanan::updateOrCreate([
+                'id' => $idms
+            ],[
+                'pesanan_id' => $pes[0]['id'],
+                'paket_id' => $request->pkt[$i],
+                'harga' => $request->hrg[$i],
+                'jumlah' => count($request->tgl_pesan[$i])
+            ]); 
+            for ($j=0; $j < count($request->tgl_pesan[$i]); $j++) {
+                TanggalKirim::updateOrInsert([
+                    'id' => $tgl[$i][$j]
+                ],[
+                    'waktu_id' => $request->wkt[$i],
+                    'menu_id' => $idms,
+                    'tgl_kirim' => $request->tgl_pesan[$i][$j],
+                    'catatan' => $request->catatan[$i][$j]
+                ]);
+            }
+        }
+
+        return redirect('/nota' . '/' . $request->no_nota)->with('alert','Pesanan berhasil disimpan');
     }
 
     public function delete(Request $request)

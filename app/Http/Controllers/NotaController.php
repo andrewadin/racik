@@ -51,7 +51,6 @@ class NotaController extends Controller
                 $sarr_ct[$x][$y] = $pes->catatan;
             }
         }
-        
         for ($i=0; $i < count($pnm); $i++) {
             array_push($pjl, count($sarr_ps[$i]));
             if($ptp[$i] == 'Harian'){
