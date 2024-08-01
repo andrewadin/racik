@@ -40,7 +40,7 @@ class NotaController extends Controller
                 array_push($pnm, $pes->menu->paket->nama_paket);
                 array_push($phr, $pes->menu->paket->harga);
                 array_push($ptp, $pes->menu->paket->tipe->nama_tipe);
-                array_push($pwt, $pes->waktu->waktu);
+                array_push($pwt, $pes->menu->waktu->waktu);
                 $x++;
                 $y = 0;
                 $sarr_ps[$x][$y] = $pes->tgl_kirim;

@@ -67,6 +67,10 @@
                         </div>
                         @for($i=0; $i < count($npkt); $i++)
                         <h5>{{$npkt[$i]}} ({{$waktu[$i]}})</h5>
+                        <div class="form-group">
+                            <label for="">Catatan Umum</label>
+                            <input type="text" class="form-control" name="ctn[{{$i}}]" id="ctn[{{$i}}]" value="{{$catatan_umum[$i]}}" readonly>
+                        </div>
                         <input type="text" name="pkt[{{$i}}]" id="pkt[{{$i}}]" value="{{$paket[$i]}}" hidden>
                         <input type="text" name="wkt[{{$i}}]" id="wkt[{{$i}}]" value="{{$wkt[$i]}}" hidden>
                         <input type="text" name="hrg[{{$i}}]" id="hrg[{{$i}}]" value="{{$hrg[$i]}}" hidden>

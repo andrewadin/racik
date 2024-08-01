@@ -84,6 +84,7 @@
                                 <th>Paket</th>
                                 <th>Tanggal Pengiriman</th>
                                 <th>Waktu Makan</th>
+                                <th>Catatan Umum</th>
                                 <th><a href="#" class="btn btn-success add_more"><i class="fa fa-plus-square"></i></a></th>
                             </thead>
                             <tbody class="add-pkt">
@@ -122,6 +123,16 @@
                                                 @endforeach
                                             </select>
                                             @error('waktu')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control ipt @error('ctn') is-invalid @enderror ctn" name="ctn[]" id="ctn[]">
+                                            @error('ctn')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
@@ -280,6 +291,16 @@
                                 '@enderror'+
                            '</div>'+
                         '</td>'+
+                        '<td>' +
+                            '<div class="form-group">' +
+                                '<input type="text" class="form-control ipt @error('ctn') is-invalid @enderror ctn" name="ctn[]" id="ctn[]">' +
+                                '@error("ctn")' +
+                                '<div class="invalid-feedback">' +
+                                    '{{ $message }}' +
+                                '</div>' +
+                                '@enderror' +
+                            '</div>' +
+                        '</td>' +   
                         '<td><a href="#" class="btn btn-danger delete"><i class="fa fa-minus-square"></i></a></td>' +
                     '</tr>';
             $('.add-pkt').append(tr);

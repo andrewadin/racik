@@ -51,7 +51,9 @@ class PesananController extends Controller
 
     public function rekapLunch()
     {
-        $swkt = WaktuKirim::where('waktu', 'Lunch')->get();
+        $swkt = WaktuKirim::where('waktu', 'Lunch')
+                            ->where('waktu', 'Lunch & Dinner')
+                            ->get();
         $wkt = $swkt[0]["id"];
         $wktx = $swkt[0]['waktu'];
         $x = 1;
@@ -66,7 +68,9 @@ class PesananController extends Controller
 
     public function rekapDinner()
     {
-        $swkt = WaktuKirim::where('waktu', 'Dinner')->get();
+        $swkt = WaktuKirim::where('waktu', 'Dinner')
+                            ->where('waktu', 'Lunch & Dinner')
+                            ->get();
         $wkt = $swkt[0]["id"];
         $wktx = $swkt[0]['waktu'];
         $x = 1;
@@ -154,6 +158,7 @@ class PesananController extends Controller
     public function baru_next(Request $request)
     {
         $paket = $request->paket;
+        $catatan_umum = $request->ctn;
         $wkt = $request->waktu;
         $total = 0;
         $pakets = Paket::all();
@@ -208,7 +213,7 @@ class PesananController extends Controller
                 $alks = $ks->alamat;
             }
         }
-        return view('layouts.pesanan_baru_2', compact('idks', 'nks', 'hpks', 'alks', 'tgl_pesan', 'total', 'pakets', 'konsumen', 'waktu', 'no_nota', 'npkt', 'paket', 'wkt', 'hrg'));
+        return view('layouts.pesanan_baru_2', compact('idks', 'nks', 'hpks', 'alks', 'tgl_pesan', 'total', 'pakets', 'konsumen', 'waktu', 'no_nota', 'npkt', 'paket', 'wkt', 'hrg', 'catatan_umum'));
         // $s_tgl = explode(',', $request->tgl_pesan);
         // $total = 0;
         // if($request->h_khusus != null){
@@ -383,9 +388,11 @@ class PesananController extends Controller
             if($mps == NULL){
                 $meps = new MenuPesanan();    
                 $meps->pesanan_id = $pes[0]['id'];    
-                $meps->paket_id = $request->pkt[$i];    
+                $meps->paket_id = $request->pkt[$i];
+                $meps->waktu_id = $request->wkt[$i];   
                 $meps->harga = $request->hrg[$i];    
                 $meps->jumlah = count($request->tgl_pesan[$i]);
+                $meps->catatan_umum = $request->ctn[$i];
                 $meps->save();
                 $mpps = MenuPesanan::where('pesanan_id', $pes[0]['id'])->where('paket_id', $request->pkt[$i])->latest()->first();
                 $idms = $mpps->id;
@@ -393,13 +400,31 @@ class PesananController extends Controller
                 $idms = $mps->id;
             }   
             for ($j=0; $j < count($request->tgl_pesan[$i]); $j++) { 
-                $tgl_kr = new TanggalKirim();
-                $tgl_kr->pesanan_id = $pes[0]['id'];        
-                $tgl_kr->waktu_id = $request->wkt[$i];
-                $tgl_kr->menu_id = $idms;
-                $tgl_kr->tgl_kirim = $request->tgl_pesan[$i][$j];
-                $tgl_kr->catatan = $request->catatan[$i][$j];
-                $tgl_kr->save();
+                if($request->wkt[$i] == 3){
+                    $tgl_kr = new TanggalKirim();
+                    $tgl_kr->pesanan_id = $pes[0]['id'];        
+                    $tgl_kr->waktu_id = 1;
+                    $tgl_kr->menu_id = $idms;
+                    $tgl_kr->tgl_kirim = $request->tgl_pesan[$i][$j];
+                    $tgl_kr->catatan = $request->catatan[$i][$j];
+                    $tgl_kr->save();
+
+                    $tgl_kr = new TanggalKirim();
+                    $tgl_kr->pesanan_id = $pes[0]['id'];        
+                    $tgl_kr->waktu_id = 2;
+                    $tgl_kr->menu_id = $idms;
+                    $tgl_kr->tgl_kirim = $request->tgl_pesan[$i][$j];
+                    $tgl_kr->catatan = $request->catatan[$i][$j];
+                    $tgl_kr->save();
+                }else{
+                    $tgl_kr = new TanggalKirim();
+                    $tgl_kr->pesanan_id = $pes[0]['id'];        
+                    $tgl_kr->waktu_id = $request->wkt[$i];
+                    $tgl_kr->menu_id = $idms;
+                    $tgl_kr->tgl_kirim = $request->tgl_pesan[$i][$j];
+                    $tgl_kr->catatan = $request->catatan[$i][$j];
+                    $tgl_kr->save();
+                }
             }
         }
 

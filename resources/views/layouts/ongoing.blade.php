@@ -46,12 +46,12 @@
                         <div class="body">
                         <div class="parent">
                             <div class="left">
-                                @if($tgls[$i]->waktu->waktu == 'Lunch')
+                                @if($tgls[$i]->waktu->waktu == 'Lunch' || $tgls[$i]->waktu->waktu == 'Lunch & Dinner')
                                 <svg viewBox="0 0 10 10" class="inln" width="25" height="25">
                                     <rect width="50" height="50" fill="yellow"/>
                                     <text x="50%" y="50%" font-size=".5em" dominant-baseline="middle" text-anchor="middle">L</text>
                                 </svg>
-                                @else
+                                @else(($tgls[$i]->waktu->waktu == 'Dinner' || $tgls[$i]->waktu->waktu == 'Lunch & Dinner'))
                                 <svg x="0" y="0" viewBox="0 0 10 10" class="inln" width="25" height="25">
                                     <rect width="50" height="50" fill="cyan"/>
                                     <text x="50%" y="50%" font-size=".5em"  dominant-baseline="middle" text-anchor="middle">D</text>
@@ -64,7 +64,7 @@
                             <h5 class="cntr">{{$tgls[$i]->pesanan->konsumen->no_hp}}</h5>
                             <p class="cntr font-lg">{{$tgls[$i]->pesanan->konsumen->alamat}}</p>
                             <p class="font-lg">Pesanan : {{$tgls[$i]->menu->paket->nama_paket}}</p>
-                            <p class="font-lg">Request : {{$tgls[$i]->catatan}}</p>
+                            <p class="font-lg">Request : {{$tgls[$i]->menu->catatan_umum}}, {{$tgls[$i]->catatan}}</p>
                         </div>
                     </div>
                 </div>

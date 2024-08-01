@@ -13,7 +13,7 @@ class WaktuSeeder extends Seeder
      */
     public function run(): void
     {
-        $waktu = ["Lunch", "Dinner"];
+        $waktu = ["Lunch", "Dinner", "Lunch & Dinner"];
         foreach($waktu as $wkt){
             WaktuKirim::updateOrCreate([
                 'waktu' => $wkt

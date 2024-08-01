@@ -19,4 +19,9 @@ class MenuPesanan extends Model
     {
         return $this->belongsTo(Paket::class, 'paket_id');
     }
+
+    public function waktu()
+    {
+        return $this->belongsTo(WaktuKirim::class, 'waktu_id');
+    }
 }
