@@ -52,7 +52,6 @@ class PesananController extends Controller
     public function rekapLunch()
     {
         $swkt = WaktuKirim::where('waktu', 'Lunch')
-                            ->where('waktu', 'Lunch & Dinner')
                             ->get();
         $wkt = $swkt[0]["id"];
         $wktx = $swkt[0]['waktu'];
@@ -69,7 +68,6 @@ class PesananController extends Controller
     public function rekapDinner()
     {
         $swkt = WaktuKirim::where('waktu', 'Dinner')
-                            ->where('waktu', 'Lunch & Dinner')
                             ->get();
         $wkt = $swkt[0]["id"];
         $wktx = $swkt[0]['waktu'];

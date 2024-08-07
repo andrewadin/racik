@@ -54,6 +54,10 @@
                                     <td>: {{$pnm[$i]}}</td>
                                 </tr>
                                 <tr>
+                                    <td>Waktu Pengiriman</td>
+                                    <td>: {{$pwt[$i]}}</td>
+                                </tr>
+                                <tr>
                                     <td>Pengirimian</td>
                                     @if($ptp[$i] == 'Harian')
                                         <td><table id="tbl1" class="tbl table table-bordered brdr" style="text-align:center;">
@@ -112,10 +116,6 @@
                                     @else
                                     <td>: {{$bln_jml}} Bulan</td>
                                     @endif
-                                </tr>
-                                <tr>
-                                    <td>Waktu Pengiriman</td>
-                                    <td>: {{$pwt[$i]}}</td>
                                 </tr>
                                 @if($arr_ct != [[]])
                                     @if($ptp[$i] == 'Harian')

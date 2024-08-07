@@ -45,12 +45,18 @@ class NotaController extends Controller
                 $y = 0;
                 $sarr_ps[$x][$y] = $pes->tgl_kirim;
                 $sarr_ct[$x][$y] = $pes->catatan;
+                
             }else{
-                $y++;
-                $sarr_ps[$x][$y] = $pes->tgl_kirim;
-                $sarr_ct[$x][$y] = $pes->catatan;
+                if($sarr_ps[$x][$y] != $pes->tgl_kirim){
+                    $y++;
+                    $sarr_ps[$x][$y] = $pes->tgl_kirim;
+                    $sarr_ct[$x][$y] = $pes->catatan;
+                }else{
+                    continue;
+                }
             }
         }
+        // dd($sarr_ps);
         for ($i=0; $i < count($pnm); $i++) {
             array_push($pjl, count($sarr_ps[$i]));
             if($ptp[$i] == 'Harian'){

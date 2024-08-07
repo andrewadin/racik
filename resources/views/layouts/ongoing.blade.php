@@ -46,12 +46,12 @@
                         <div class="body">
                         <div class="parent">
                             <div class="left">
-                                @if($tgls[$i]->waktu->waktu == 'Lunch' || $tgls[$i]->waktu->waktu == 'Lunch & Dinner')
+                                @if($tgls[$i]->waktu->waktu == 'Lunch')
                                 <svg viewBox="0 0 10 10" class="inln" width="25" height="25">
                                     <rect width="50" height="50" fill="yellow"/>
                                     <text x="50%" y="50%" font-size=".5em" dominant-baseline="middle" text-anchor="middle">L</text>
                                 </svg>
-                                @else(($tgls[$i]->waktu->waktu == 'Dinner' || $tgls[$i]->waktu->waktu == 'Lunch & Dinner'))
+                                @elseif($tgls[$i]->waktu->waktu == 'Dinner')
                                 <svg x="0" y="0" viewBox="0 0 10 10" class="inln" width="25" height="25">
                                     <rect width="50" height="50" fill="cyan"/>
                                     <text x="50%" y="50%" font-size=".5em"  dominant-baseline="middle" text-anchor="middle">D</text>
