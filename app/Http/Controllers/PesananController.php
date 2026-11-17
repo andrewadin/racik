@@ -458,6 +458,10 @@ class PesananController extends Controller
                 $wkt[$cnt] = $s_tgl[$i]->waktu->id;
                 $s_id = $s_tgl[$i]->menu->id;
                 $cnt++;
+            }else if($s_tgl[$i]->waktu->waktu == 'Lunch & Dinner' && $s_tgl[$i]->menu->id != $s_id){
+                $wkt[$cnt] = $s_tgl[$i]->waktu->id;
+                $s_id = $s_tgl[$i]->menu->id;
+                $cnt++;
             }
         }
         $cnt = 0;
@@ -478,6 +482,7 @@ class PesananController extends Controller
     }
 
     public function edit_next(Request $request){
+        // dd($request);
         $paket = $request->paket;
         $wkt = $request->waktu;
         $total = 0;
@@ -504,6 +509,9 @@ class PesananController extends Controller
             }else if($tipe == 'Bulanan'){
                 $temp = ceil(count($tgl_pesan[$i]) / 27);
                 $total += $harga * $temp;
+            }
+            if ($swt[$i]->waktu == 'Lunch & Dinner'){
+                $total *= 2;
             }
             for ($j=0; $j < count($tgl_pesan[$i]); $j++) { 
                 $tgl_pesan[$i][$j] = Carbon::createFromFormat('Y-m-d', $tgl_pesan[$i][$j]);

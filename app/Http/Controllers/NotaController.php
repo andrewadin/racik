@@ -19,7 +19,7 @@ class NotaController extends Controller
             $hrg_tmb = $sp->harga_tambahan;
             $diskon = $sp->diskon;
         }
-        $pesanan = TanggalKirim::with('waktu', 'pesanan', 'menu')->where('pesanan_id', $idps)->get();
+        $pes = TanggalKirim::with('waktu', 'pesanan', 'menu')->where('pesanan_id', $idps)->first();
         $no_admin = Auth::user()->no_hp;
         $pnm = array();
         $phr = array();
@@ -30,30 +30,26 @@ class NotaController extends Controller
         $arr_ct = [[]];
         $bln_jml = 0;
         $spid = 0; $x = -1; $y = 0;
-        foreach ($pesanan as $pes){
-            $no_nota = $pes->pesanan->no_nota;
-            $nama = $pes->pesanan->konsumen->nama;
-            $no_hp = $pes->pesanan->konsumen->no_hp;
-            $alamat = $pes->pesanan->konsumen->alamat;
-            if($pes->menu->paket_id != $spid){
-                $spid = $pes->menu->paket_id;
-                array_push($pnm, $pes->menu->paket->nama_paket);
-                array_push($phr, $pes->menu->paket->harga);
-                array_push($ptp, $pes->menu->paket->tipe->nama_tipe);
-                array_push($pwt, $pes->menu->waktu->waktu);
-                $x++;
-                $y = 0;
+        $no_nota = $pes->pesanan->no_nota;
+        $nama = $pes->pesanan->konsumen->nama;
+        $no_hp = $pes->pesanan->konsumen->no_hp;
+        $alamat = $pes->pesanan->konsumen->alamat;
+        if($pes->menu->paket_id != $spid){
+            $spid = $pes->menu->paket_id;
+            array_push($pnm, $pes->menu->paket->nama_paket);
+            array_push($phr, $pes->menu->paket->harga);
+            array_push($ptp, $pes->menu->paket->tipe->nama_tipe);
+            array_push($pwt, $pes->menu->waktu->waktu);
+            $x++;
+            $y = 0;
+            $sarr_ps[$x][$y] = $pes->tgl_kirim;
+            $sarr_ct[$x][$y] = $pes->catatan;
+            
+        }else{
+            if($sarr_ps[$x][$y] != $pes->tgl_kirim){
+                $y++;
                 $sarr_ps[$x][$y] = $pes->tgl_kirim;
                 $sarr_ct[$x][$y] = $pes->catatan;
-                
-            }else{
-                if($sarr_ps[$x][$y] != $pes->tgl_kirim){
-                    $y++;
-                    $sarr_ps[$x][$y] = $pes->tgl_kirim;
-                    $sarr_ct[$x][$y] = $pes->catatan;
-                }else{
-                    continue;
-                }
             }
         }
         // dd($sarr_ps);

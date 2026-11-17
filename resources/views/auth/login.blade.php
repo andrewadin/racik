@@ -11,12 +11,12 @@
 
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <!-- VENDOR CSS -->
-<link rel="stylesheet" href="{{asset('assets/vendor/bootstrap/css/bootstrap.min.css')}}">
-<link rel="stylesheet" href="{{asset('assets/vendor/font-awesome/css/font-awesome.min.css')}}">
+<link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/vendor/font-awesome/css/font-awesome.min.css') }}">
 
 <!-- MAIN CSS -->
-<link rel="stylesheet" href="{{asset('assets/css/main.css')}}">
-<link rel="stylesheet" href="{{asset('assets/css/color_skins.css')}}">
+<link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/css/color_skins.css') }}">
 </head>
 
 <body class="theme-orange">
@@ -28,7 +28,7 @@
                 
 					<div class="card">
                         <div class="header">
-                            <img src="{{asset('/assets/images/logo.png')}}">
+                            <img src="{{ asset('/assets/images/logo.png') }}">
                             <p class="lead">Login</p>
                         </div>
                         <div class="body">

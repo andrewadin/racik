@@ -270,12 +270,12 @@
 
 <script src="{{asset('assets/vendor/sweetalert/sweetalert.min.js')}}"></script> 
 <script>
-    function editKelas($id, $nama, $tid, $dskr, $harga) {
+    function editKelas($id, $nama, $tid, $harga, $dskr) {
             $('#edit_nama').val($nama)
             $('#edit_tipe').val($tid)
             $('#edit_paket_id').val($id)
-            $('#edit_summernote').val($dskr)
             $('#edit_harga').val($harga)
+            $('#edit_summernote').val($dskr)
         }
         function deleteKelas($id, $name) {
             $('#delete_nama').html($name)
